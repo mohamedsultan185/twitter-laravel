@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class TweetController extends Controller
 {
@@ -14,7 +17,14 @@ class TweetController extends Controller
      */
     public function index()
     {
-        //
+        $currentUser = Auth::user();
+        $followedUsersIds = $currentUser->following->pluck('id');
+        $followedUsersIds[] = $currentUser->id; 
+        $tweets = Tweet::whereIn('user_id', $followedUsersIds)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('master', compact('tweets'));
     }
 
     /**
@@ -24,7 +34,7 @@ class TweetController extends Controller
      */
     public function create()
     {
-        //
+        return view('createTweet');
     }
 
     /**
@@ -35,7 +45,29 @@ class TweetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd( $request->all());
+
+        $request->validate([
+            'content' => 'required|max:280',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = auth()->user();
+        $tweetData = [
+            'user_id' => $user->id,
+            'content' => $request->input('content'),
+        ];
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('tweet_images'), $imageName);
+            $tweetData['image'] = $imageName;
+        }
+
+        Tweet::create($tweetData);
+
+        return redirect()->route('tweets.index')->with('success', 'Tweet created successfully!');
     }
 
     /**
@@ -46,7 +78,8 @@ class TweetController extends Controller
      */
     public function show(Tweet $tweet)
     {
-        //
+         // TODO
+        return redirect()->route('tweets.index')->with('success', 'Tweet created successfully');
     }
 
     /**
@@ -57,7 +90,6 @@ class TweetController extends Controller
      */
     public function edit(Tweet $tweet)
     {
-        //
     }
 
     /**
@@ -67,9 +99,8 @@ class TweetController extends Controller
      * @param  \App\Models\Tweet  $tweet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tweet $tweet)
+    public function update(Request $request)
     {
-        //
     }
 
     /**
@@ -80,6 +111,52 @@ class TweetController extends Controller
      */
     public function destroy(Tweet $tweet)
     {
-        //
+        $tweet->delete();
+        return redirect()->route('tweets.index')->with('success', 'Tweet deleted successfully');
     }
+    public function toggleLike(Tweet $tweet)
+    {
+        $user = auth()->user();
+
+        if ($user->likedTweets()->where('tweet_id', $tweet->id)->exists()) {
+            $user->likedTweets()->detach($tweet->id);
+        } else {
+            $user->likedTweets()->attach($tweet->id);
+        }
+
+        return back();
+    }
+
+    public function toggleRetweet(Tweet $tweet)
+    {
+        $user = auth()->user();
+
+        if ($user->hasRetweeted($tweet)) {
+            $user->retweetedTweets()->detach($tweet);
+        } else {
+            $user->retweetedTweets()->attach($tweet);
+        }
+
+        return back();
+    }
+    public function reply(Tweet $tweet, Request $request)
+    {
+        $validatedData = $request->validate([
+            'reply_content' => 'required|max:255',
+        ]);
+
+        $newReply = new Tweet();
+        $newReply->content = $validatedData['reply_content'];
+        $newReply->user_id = auth()->user()->id;
+        $newReply->reply_to_tweet_id = $tweet->id;
+        $newReply->save();
+
+        return back()->with('success', 'Reply posted successfully.');
+    }
+    public function showReplies(Tweet $tweet)
+{
+    return view('show_replies', ['tweet' => $tweet]);
+}
+
+
 }

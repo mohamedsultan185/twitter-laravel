@@ -65,18 +65,62 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
-    public function retweets()
-    {
-        return $this->hasMany(Retweet::class);
-    }
+    // public function retweets()
+    // {
+    //     return $this->hasMany(Retweet::class);
+    // }
 
     public function followers()
     {
-        return $this->hasMany(Follow::class, 'following_id');
+        return $this->belongsToMany(User::class,'follows','followed_id','follower_id');
     }
 
     public function following()
     {
-        return $this->hasMany(Follow::class, 'follower_id');
+        return $this->belongsToMany(User::class,'follows','follower_id','followed_id');
     }
+
+
+    public function isFollowing(User $user)
+    {
+        return $this->following()->where('accepted', true)->where('followed_id', $user->id)->exists();
+    }
+    public function isPending(User $user)
+    {
+        return $this->following()->where('accepted', false)->where('followed_id', $user->id)->exists();
+    }
+    public function FollowRequest(User $otherUser)
+     {
+         return $this->followers()->where('follower_id', $otherUser->id)->where('accepted', false);
+
+     }
+
+    function getAvatarUrlAttribute()
+    {
+        return $this->image ? asset('tweet_images/'. $this->image) : asset('img/sultan.jpg');
+    }
+    function getProfileUrlAttribute()
+    {
+        return $this->image ? asset('profile_images/'. $this->image) : asset('img/sultan.jpg');
+    }
+    public function likedTweets(){
+        return $this->belongsToMany(Tweet::class, 'likes')->withTimestamps();
+    }
+
+    public function hasRetweeted(Tweet $tweet)
+{
+    return $this->retweets->contains('tweet_id', $tweet->id);
+}
+
+public function retweets()
+{
+    return $this->hasMany(Retweet::class);
+}
+public function retweetedTweets()
+{
+    return $this->belongsToMany(Tweet::class, 'retweets', 'user_id', 'tweet_id');
+}
+
+
+
 }
