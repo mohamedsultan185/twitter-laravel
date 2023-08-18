@@ -95,6 +95,12 @@ public function showFollowRequestApproval()
     return view('requests', compact('users'));
 }
 
+public function userLike(){
+
+
+    return view('like')
+
+}
 
 
 }

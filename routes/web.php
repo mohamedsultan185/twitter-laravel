@@ -26,36 +26,40 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-
-Route::get('/', [TweetController::class, 'index'])->name('tweets.index');
+//master
+Route::get('/', [TweetController::class, 'index'])->name('tweets.index')->middleware('auth');
 // Route::get('/createTweet', [TweetController::class, 'create'])->name('tweets.create');
-Route::post('/tweets', [TweetController::class, 'store'])->name('tweets.store');
-Route::get('/tweets/{tweet}', [TweetController::class, 'show'])->name('tweets.show');
-Route::delete('/tweets/{tweet}', [TweetController::class, 'destroy'])->name('tweets.destroy');
+//tweet
+Route::post('/tweets', [TweetController::class, 'store'])->name('tweets.store')->middleware('auth');
+Route::get('/tweets/{tweet}', [TweetController::class, 'show'])->name('tweets.show')->middleware('auth');
+Route::delete('/tweets/{tweet}', [TweetController::class, 'destroy'])->name('tweets.destroy')->middleware('auth');
 
 
 // profile
- Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
- Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
- Route::post('/profile/update', [UserController::class,'update'])->name('profile.update');
+ Route::get('/profile', [UserController::class, 'show'])->name('profile.show')->middleware('auth');
+ Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit')->middleware('auth');
+ Route::post('/profile/update', [UserController::class,'update'])->name('profile.update')->middleware('auth');
 
 //follow, unfollow
- Route::post('/users/{user}/follow', [FollowController::class, 'follow'])->name('users.follow');
- Route::delete('/users/{user}/unfollow', [FollowController::class, 'unfollow'])->name('users.unfollow');
+ Route::post('/users/{user}/follow', [FollowController::class, 'follow'])->name('users.follow')->middleware('auth');
+ Route::delete('/users/{user}/unfollow', [FollowController::class, 'unfollow'])->name('users.unfollow')->middleware('auth');
 
- // like route
- Route::post('/tweets/{tweet}/like', [TweetController::class, 'toggleLike'])->name('tweets.toggleLike');
+ // like
+ Route::post('/tweets/{tweet}/like', [TweetController::class, 'toggleLike'])->name('tweets.toggleLike')->middleware('auth');
 
  //retweet
- Route::post('/tweets/{tweet}/retweet', [TweetController::class, 'toggleRetweet']) ->name('tweets.toggleRetweet');
- Route::post('/tweets/{tweet}/reply', [TweetController::class, 'reply'])->name('tweets.reply');
- Route::post('/tweets/{tweet}/reply', 'TweetController@reply')->name('tweets.reply');
+ Route::post('/tweets/{tweet}/retweet', [TweetController::class, 'toggleRetweet']) ->name('tweets.toggleRetweet')->middleware('auth');
+ Route::post('/tweets/{tweet}/reply', [TweetController::class, 'reply'])->name('tweets.reply')->middleware('auth');
+ Route::post('/tweets/{tweet}/reply', 'TweetController@reply')->name('tweets.reply')->middleware('auth');
 
 // allUsers
-Route::get('allUsers', [UserController::class,'allUsers'])->name('all.users');
+Route::get('allUsers', [UserController::class,'allUsers'])->name('all.users')->middleware('auth');
 //followed
-Route::get('followed', [UserController::class,'followed'])->name('followed');
-Route::get('followers', [UserController::class,'followers'])->name('followers');
+Route::get('followed', [UserController::class,'followed'])->name('followed')->middleware('auth');
+Route::get('followers', [UserController::class,'followers'])->name('followers')->middleware('auth');
 // request
-Route::post('/approve-follow/{user}', [UserController::class, 'approveFollowRequest'])->name('approve.follow');
-Route::get('/approve-follow-request', [UserController::class, 'showFollowRequestApproval'])->name('approve.followRequest');
+Route::post('/approve-follow/{user}', [UserController::class, 'approveFollowRequest'])->name('approve.follow')->middleware('auth');
+Route::get('/approve-follow-request', [UserController::class, 'showFollowRequestApproval'])->name('approve.followRequest')->middleware('auth');
+
+//userLike
+Route::get('/profile/userLike', [UserController::class, 'userLike'])->name('user.like')->middleware('auth');
