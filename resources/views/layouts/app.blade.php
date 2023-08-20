@@ -70,10 +70,11 @@
                 </div>
                 <div class="ml-3">
                   <p class="text-base leading-6 font-medium text-white">
-                    Sonali Hirave
+                    {{Auth::user()->name}}
                   </p>
                   <p class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
-                    @ShonaDesign
+                    {{'@'.Auth::user()->username}}
+
                   </p>
                 </div>
               </div>
