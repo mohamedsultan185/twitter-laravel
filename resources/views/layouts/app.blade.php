@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite('resources/css/app.css')
 </head>
-<body class="flex items-center justify-center" style="background: #edf2f7;">
-    <div class="bg-blue-900">
+<body class="flex items-center justify-center" style="background: #15202b;">
+    <div class="" style="background-color: #15202b;">
         <div class="flex">
 
             <div class="w-2/5 text-white h-12 pl-32 py-4 h-auto">
@@ -159,7 +159,8 @@
 
 
         <!--second-trending tweet section-->
-    <div class="max-w-sm rounded-lg bg-blue-800 overflow-hidden shadow-lg m-4 mr-20">
+    <div class="max-w-sm rounded-lg shadow-md overflow-hidden mx-auto my-7">
+
         <div class="flex">
             <div class="flex-1 m-2">
                 <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Germany trends</h2>
@@ -254,7 +255,7 @@
 
     <!--third-people suggetion to follow section-->
 
-    <div class="max-w-sm rounded-lg bg-blue-800 overflow-hidden shadow-lg m-4 mr-20">
+    <div class="max-w-sm rounded-lg overflow-hidden shadow-lg m-4 mr-20">
         <div class="flex">
             <div class="flex-1 m-2">
                 <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Who to follow</h2>
@@ -349,38 +350,10 @@
     </div>
 </div>
 
-<div/>
+</div>
 
 </div>
 
 
-<style>
-    .overflow-y-auto::-webkit-scrollbar, .overflow-y-scroll::-webkit-scrollbar, .overflow-x-auto::-webkit-scrollbar, .overflow-x::-webkit-scrollbar, .overflow-x-scroll::-webkit-scrollbar, .overflow-y::-webkit-scrollbar, body::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.overflow-y-auto, .overflow-y-scroll, .overflow-x-auto, .overflow-x, .overflow-x-scroll, .overflow-y, body {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.bg-dim-700 {
-  --bg-opacity: 1;
-  background-color: #192734;
-}
-
-html, body {
-  margin: 0;
-  background-color: #15202b;
-}
-
-svg.paint-icon {
-  fill: currentcolor;
-}
-
-        </style>
 </body>
 </html>

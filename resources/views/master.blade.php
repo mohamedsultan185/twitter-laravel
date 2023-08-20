@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('tweets')
-    <hr class="border-blue-800 border-4">
+    <hr class="border-b border-gray-400 my-8">
 
     <!-- Tweet start -->
     @foreach ($tweets as $tweet)
