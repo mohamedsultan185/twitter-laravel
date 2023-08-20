@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('retweet_id')->nullable();
             $table->unsignedBigInteger('reply_to_tweet_id')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->softDeletes(); 
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

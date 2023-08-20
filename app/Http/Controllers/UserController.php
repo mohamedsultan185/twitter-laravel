@@ -96,12 +96,19 @@ public function showFollowRequestApproval()
 }
 
 public function userLike(){
-
-
-    return view('like')
+    $currentUser = auth()->user();
+    $users = User::where('id', '!=', $currentUser->id)->get();
+    $tweets = $currentUser->likes()->orderBy('created_at', 'desc')->get();
+    return view('profile',compact('users','currentUser','tweets'));
 
 }
+public function userRetweet(){
+    $currentUser = auth()->user();
+    $users = User::where('id', '!=', $currentUser->id)->get();
+    $tweets = $currentUser->retweets()->orderBy('created_at', 'desc')->get();
+    return view('profile',compact('users','currentUser','tweets'));
 
+}
 
 }
 

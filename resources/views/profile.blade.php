@@ -1,153 +1,111 @@
-    @include('includes.header')
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{{ Auth::user()->getProfileUrlAttribute() }}" class="card-img-top" alt="Profile Picture">
-                    <div class="card-body">
-                        <h5 class="card-title">{{Auth::user()->name }}</h5>
-                        <p class="card-text">
-                            Username: {{ Auth::user()->username }}<br>
-                            Email :{{ Auth::user()->email }}
+@include('includes.header')
+@include('includes.bar')
+
+@include('includes.userManu')
+<hr class="border-blue-800 border-4">
+
+    <!-- Tweet start -->
+    @foreach ($tweets as $tweet)
+        <div class="flex flex-shrink-0 p-4 pb-0">
+            <a href="#" class="flex-shrink-0 group block">
+                <div class="flex items-center">
+                    <div>
+                        <img class="inline-block h-10 w-10 rounded-full"
+                            src="{{ $tweet->user->profile_url }}" alt="{{ $tweet->user->name }}">
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-base leading-6 font-medium text-white">
+                            {{ $tweet->user->name }}
+                            <span class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
+                                {{ '@' . $tweet->user->username }} . {{ $tweet->created_at->format('d M') }}
+                            </span>
                         </p>
-                        <a href="{{ route('profile.edit') }}" class="btn btn-primary">Update Profile</a>
-                        <a class="btn btn-primary" href="{{ route('tweets.index') }}">Home</a>
                     </div>
                 </div>
-                <h1>All Users</h1>
-                @if ($users)
-                    @foreach ($users as $user)
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $user->name }}</h5>
-                                <x-follow :user="$user"/>
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
+            </a>
+        </div>
 
+        <div class="pl-16">
+            <p class="text-base width-auto font-medium text-white flex-shrink">
+                {{ $tweet->content }}
+            </p>
+
+            <div class="md:flex-shrink pr-6 pt-3">
+                @if ($tweet->image)
+                <img src="{{ asset('tweet_images/' . $tweet->image) }}" alt="Tweet Image"
+                    width="600" height="800">
+            @endif
             </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h1>Profile</h1>
-                        <i class="fas fa-magic"></i>
-                        <form action="{{ route('tweets.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf <div class="form-group">
-                                <textarea class="form-control" name="content" rows="3" placeholder="What's happening?"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary image-button"><i
-                                            class="far fa-image"></i></button>
-                                    <input type="file" class="d-none" id="imageInput" name="image"
-                                        accept="image/*">
-                                </div>
-                                <button class="btn btn-primary" type="submit">Tweet</button>
-                                </a>
-                            </div>
-                        </form>
 
+            <div class="flex">
+                <div class="w-full">
 
-                    </div>
-
-                </div>
-                <br>
-
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div class="container">
-                        <a class="navbar-brand" href="{{ route('tweets.index') }}">Home</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('user.like')}}">Likes</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Retweets</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('followed')}}">Followed</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('followers')}}">Followers</a>
-                                </li>
-                            </ul>
+                    <div class="flex items-center">
+                        <!-- Like Button -->
+                        <div class="flex-1 text-center">
+                            <form action="{{ route('tweets.toggleLike', $tweet) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300">
+                                    @if (auth()->user()->likedTweets->contains($tweet->id))
+                                        <svg class="h-6 w-6 text-red-500" fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+                                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                        </svg>
+                                    @else
+                                        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+                                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                        </svg>
+                                    @endif
+                                </button>
+                            </form>
                         </div>
-                    </div>
-                </nav>
 
-                <br><br>
 
-                @foreach ($tweets->sortByDesc('created_at') as $tweet)
-                    <div class="tweets">
-                        <div class="user-pics">
-                            <img src="{{ $tweet->user->profile_url }}" alt="{{ $tweet->user->name }}" width="50"
-                                height="50">
+                        <!-- Retweet Button -->
+                        <div class="flex-1 text-center py-2 m-2">
+                            <form action="{{ route('tweets.toggleRetweet', $tweet) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300">
+                                    <svg class="h-6 w-6 mr-1 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                                    </svg>
+                                    {{ $tweet->retweets->count() }}
+                                </button>
+                            </form>
                         </div>
-                        <div class="user-content-box">
-                            <div class="user-names">
-                                <h1 class="full-name">{{ $tweet->user->name }}</h1>
-                                <p class="user-name">{{ '@' . $tweet->user->username }}</p>
-                                <p class="time">{{ $tweet->created_at->diffForHumans() }}</p>
-                            </div>
-
-                            <div class="user-content">
-                                <p>{{ $tweet->content }}</p>
-                                @if ($tweet->image)
-                                    <img src="{{ asset('tweet_images/' . $tweet->image) }}" alt="Tweet Image"
-                                        width="600" height="800">
-                                @endif
-                            </div>
 
 
-                            <div class="content-icons">
-                                <form action="{{ route('tweets.toggleLike', $tweet) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="like-button">
-                                        @if (auth()->user()->likedTweets->contains($tweet->id))
-                                            <i
-                                                class="fas fa-heart red"></i>{{ auth()->user()->likedTweets->contains($tweet->id) }}
-                                        @else
-                                            <i
-                                                class="far fa-heart"></i>{{ auth()->user()->likedTweets->contains($tweet->id) }}
-                                        @endif
-                                    </button>
-                                </form>
-                                <form action="{{ route('tweets.toggleRetweet', $tweet) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="retweet-button">
-                                        @if (auth()->user()->retweetedTweets->contains($tweet->id))
-                                            <i class="fas fa-retweet green"></i>{{ $tweet->retweets->count() }}
-                                        @else
-                                            <i class="fas fa-retweet green"></i>{{ $tweet->retweets->count() }}
-                                        @endif
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    @foreach ($tweet->replies as $reply)
-                        <div class="reply">
-                            <p>{{ $reply->content }}</p>
-                        </div>
-                    @endforeach
-
-                    <!-- Reply form (hidden by default) -->
-                    <div class="reply-form" id="reply-form-{{ $tweet->id }}">
-                        <form action="{{ route('tweets.reply', $tweet) }}" method="POST">
-                            @csrf
-                            <textarea name="reply_content" class="form-control" placeholder="Your reply"></textarea>
-                            <button type="submit" class="btn btn-primary mt-2">Reply</button>
-                        </form>
-                    </div>
-                @endforeach
-
-                <div class="pagnation">
-                    <a href="#">Load more</a>
-                </div>
-
+          <!-- Reply Button and Form -->
+    <div class="flex-1 text-center py-2 m-2">
+        <form action="{{ route('tweets.store') }}" method="POST">
+            @csrf
+            <div class="flex items-center">
+                <button type="submit" class="w-12 group text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300">
+                    <svg class="h-7 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </button>
+                <textarea name="content" class="ml-2 rounded-lg border-gray-300 border p-2" placeholder="Write a comment"></textarea>
+                <input type="hidden" name="parent_tweet_id" value="{{ $tweet->id }}">
             </div>
-            @include('includes.script');
+        </form>
+    </div>
+
+                        <!-- More Options Button -->
+                        {{-- <div class="flex-1 text-center py-2 m-2">
+                            <a href="#" class="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300">
+                                <svg class="text-center h-7 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                                </svg>
+                            </a>
+                        </div> --}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <hr class="border-gray-600">
+    @endforeach
+    <!-- Tweet end -->
+    </div>
+    @include('includes.rightbarMaster')
+    @include('includes.script')

@@ -17,8 +17,12 @@ use App\Http\Controllers\FollowController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/test', function () {
+    return view('test');
+});
+
+Route::get('/test1', function () {
+    return view('test1');
 });
 
 
@@ -50,16 +54,19 @@ Route::delete('/tweets/{tweet}', [TweetController::class, 'destroy'])->name('twe
  //retweet
  Route::post('/tweets/{tweet}/retweet', [TweetController::class, 'toggleRetweet']) ->name('tweets.toggleRetweet')->middleware('auth');
  Route::post('/tweets/{tweet}/reply', [TweetController::class, 'reply'])->name('tweets.reply')->middleware('auth');
- Route::post('/tweets/{tweet}/reply', 'TweetController@reply')->name('tweets.reply')->middleware('auth');
+//  Route::post('/tweets/{tweet}/reply', [TweetController::class, 'reply'])->name('tweets.reply')->middleware('auth');
 
 // allUsers
 Route::get('allUsers', [UserController::class,'allUsers'])->name('all.users')->middleware('auth');
 //followed
 Route::get('followed', [UserController::class,'followed'])->name('followed')->middleware('auth');
 Route::get('followers', [UserController::class,'followers'])->name('followers')->middleware('auth');
+
 // request
 Route::post('/approve-follow/{user}', [UserController::class, 'approveFollowRequest'])->name('approve.follow')->middleware('auth');
 Route::get('/approve-follow-request', [UserController::class, 'showFollowRequestApproval'])->name('approve.followRequest')->middleware('auth');
 
 //userLike
 Route::get('/profile/userLike', [UserController::class, 'userLike'])->name('user.like')->middleware('auth');
+//user/Retweet
+// Route::get('/profile/userLike', [UserController::class, 'userRetweet'])->name('user.retweet')->middleware('auth');
