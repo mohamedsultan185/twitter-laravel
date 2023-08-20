@@ -25,7 +25,7 @@
             </a>
         </div>
 
-        <div class="pl-16"></div>
+        <div class="pl-16">
             <p class="text-base width-auto font-medium text-white flex-shrink">
                 {{ $tweet->content }}
                 <a href="#" class="text-blue-400"> #WomenWhoCode #CodeNewbie</a>
