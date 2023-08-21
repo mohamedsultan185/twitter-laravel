@@ -19,12 +19,13 @@ class TweetController extends Controller
     {
         $currentUser = Auth::user();
         $followedUsersIds = $currentUser->following->pluck('id');
-        $followedUsersIds[] = $currentUser->id; 
+        $followedUsersIds[] = $currentUser->id;
+        $users = User::where('id', '!=', $currentUser->id)->get();
         $tweets = Tweet::whereIn('user_id', $followedUsersIds)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('master', compact('tweets'));
+        return view('master', compact('tweets', 'users'));
     }
 
     /**
@@ -78,7 +79,7 @@ class TweetController extends Controller
      */
     public function show(Tweet $tweet)
     {
-         // TODO
+        // TODO
         return redirect()->route('tweets.index')->with('success', 'Tweet created successfully');
     }
 
@@ -154,9 +155,7 @@ class TweetController extends Controller
         return back()->with('success', 'Reply posted successfully.');
     }
     public function showReplies(Tweet $tweet)
-{
-    return view('show_replies', ['tweet' => $tweet]);
-}
-
-
+    {
+        return view('show_replies', ['tweet' => $tweet]);
+    }
 }
