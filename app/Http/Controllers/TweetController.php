@@ -21,10 +21,7 @@ class TweetController extends Controller
         $followedUsersIds = $currentUser->following->pluck('id');
         $followedUsersIds[] = $currentUser->id;
         $users = User::where('id', '!=', $currentUser->id)->get();
-        $tweets = Tweet::whereIn('user_id', $followedUsersIds)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
+        $tweets = Tweet::whereIn('user_id', $followedUsersIds)->orderBy('created_at', 'desc')->get();
         return view('master', compact('tweets', 'users'));
     }
 
@@ -118,26 +115,14 @@ class TweetController extends Controller
     public function toggleLike(Tweet $tweet)
     {
         $user = auth()->user();
-
-        if ($user->likedTweets()->where('tweet_id', $tweet->id)->exists()) {
-            $user->likedTweets()->detach($tweet->id);
-        } else {
-            $user->likedTweets()->attach($tweet->id);
-        }
-
+        $user->likedTweets()->toggle($tweet->id);
         return back();
     }
 
     public function toggleRetweet(Tweet $tweet)
     {
         $user = auth()->user();
-
-        if ($user->hasRetweeted($tweet)) {
-            $user->retweetedTweets()->detach($tweet);
-        } else {
-            $user->retweetedTweets()->attach($tweet);
-        }
-
+        $user->retweetedTweets()->toggle($tweer->id);
         return back();
     }
     public function reply(Tweet $tweet, Request $request)

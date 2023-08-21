@@ -18,10 +18,7 @@ class Tweet extends Model
     }
 
 
-    public function retweet()
-    {
-        return $this->belongsToMany(User::class, 'retweets')->withTimestamps();
-    }
+
 
     public function replies()
     {
@@ -32,11 +29,12 @@ class Tweet extends Model
         // dd($this);
         return $this->belongsToMany(User::class, 'likes')->withTimestamps();
     }
-
     public function retweets()
     {
-        return $this->hasMany(Retweet::class);
+        // dd($this);
+        return $this->belongsToMany(User::class, 'retweets')->withTimestamps();
     }
+
 
 
     public function originalTweet()

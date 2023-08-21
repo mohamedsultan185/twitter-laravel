@@ -64,20 +64,20 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tweet::class, 'likes', 'user_id', 'tweet_id');
     }
-  
-    // public function retweets()
-    // {
-    //     return $this->hasMany(Retweet::class);
-    // }
+
+    public function retweets()
+    {
+        return $this->belongsToMany(Tweet::class, 'retweets', 'user_id', 'tweet_id');
+    }
 
     public function followers()
     {
-        return $this->belongsToMany(User::class,'follows','followed_id','follower_id');
+        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id');
     }
 
     public function following()
     {
-        return $this->belongsToMany(User::class,'follows','follower_id','followed_id');
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
     }
 
 
@@ -90,37 +90,31 @@ class User extends Authenticatable
         return $this->following()->where('accepted', false)->where('followed_id', $user->id)->exists();
     }
     public function FollowRequest(User $otherUser)
-     {
-         return $this->followers()->where('follower_id', $otherUser->id)->where('accepted', false);
-
-     }
+    {
+        return $this->followers()->where('follower_id', $otherUser->id)->where('accepted', false);
+    }
 
     function getAvatarUrlAttribute()
     {
-        return $this->image ? asset('tweet_images/'. $this->image) : asset('img/sultan.jpg');
+        return $this->image ? asset('tweet_images/' . $this->image) : asset('img/sultan.jpg');
     }
     function getProfileUrlAttribute()
     {
-        return $this->image ? asset('profile_images/'. $this->image) : asset('img/sultan.jpg');
+        return $this->image ? asset('profile_images/' . $this->image) : asset('img/sultan.jpg');
     }
-    public function likedTweets(){
+    public function likedTweets()
+    {
         return $this->belongsToMany(Tweet::class, 'likes')->withTimestamps();
     }
 
-    public function hasRetweeted(Tweet $tweet)
-{
-    return $this->retweets->contains('tweet_id', $tweet->id);
-}
-
-public function retweets()
-{
-    return $this->hasMany(Retweet::class);
-}
-public function retweetedTweets()
-{
-    return $this->belongsToMany(Tweet::class, 'retweets', 'user_id', 'tweet_id');
-}
+    // public function hasRetweeted(Tweet $tweet)
+    // {
+    //     return $this->retweets->contains('tweet_id', $tweet->id);
+    // }
 
 
-
+    public function retweetedTweets()
+    {
+        return $this->belongsToMany(Tweet::class, 'retweets')->withTimestamps();
+    }
 }
