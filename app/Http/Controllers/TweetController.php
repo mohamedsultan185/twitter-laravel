@@ -122,7 +122,7 @@ class TweetController extends Controller
     public function toggleRetweet(Tweet $tweet)
     {
         $user = auth()->user();
-        $user->retweetedTweets()->toggle($tweer->id);
+        $user->retweetedTweets()->toggle($tweet->id);
         return back();
     }
     public function reply(Tweet $tweet, Request $request)

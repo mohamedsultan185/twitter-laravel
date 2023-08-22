@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -78,7 +76,6 @@
                             </div>
                         </div>
 
-                     <!-- New Field: Phone Number -->
                      <div class="row mb-3">
                         <label for="phone" class="col-md-4 col-form-label text-md-end">{{ __('Phone Number') }}</label>
 
@@ -93,7 +90,6 @@
                         </div>
                     </div>
 
-                    <!-- New Field: Birthday -->
                     <div class="row mb-3">
                         <label for="birthday" class="col-md-4 col-form-label text-md-end">{{ __('Birthday') }}</label>
 
@@ -121,4 +117,4 @@
     </div>
 </div>
 </div>
-@endsection
+
