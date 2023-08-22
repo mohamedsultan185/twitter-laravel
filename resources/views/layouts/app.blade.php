@@ -143,6 +143,7 @@
                                     alt="{{ Auth::user()->name }}">
                             </div>
                             <div class="ml-3">
+                                <a href="{{route('profile.show')}}">
                                 <p class="text-base leading-6 font-medium text-white">
                                     {{ Auth::user()->name }}
                                 </p>
@@ -151,6 +152,7 @@
                                     {{ '@' . Auth::user()->username }}
 
                                 </p>
+                                </a>
                             </div>
                         </div>
                     </a>
@@ -295,9 +297,11 @@
                     <!--show more-->
 
                     <div class="flex">
+                        <a href="{{route('all.users')}}">
                         <div class="flex-1 p-4">
                             <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
                         </div>
+                        </a>
                     </div>
 
                 </div>
@@ -334,9 +338,11 @@
                     <!--show more-->
 
                     <div class="flex">
+                        <a href="{{route('all.users')}}">
                         <div class="flex-1 p-4">
                             <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
                         </div>
+                        </a>
                     </div>
 
                 </div>

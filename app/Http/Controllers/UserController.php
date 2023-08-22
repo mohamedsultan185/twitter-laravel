@@ -13,7 +13,7 @@ class UserController extends Controller
     public function show()
 {
     $currentUser = Auth::user();
-    $users = User::where('id', '!=', $currentUser->id)->get();
+    $users = User::where('id', '!=', $currentUser->id)->inRandomOrder()->limit(5)->get();
     $tweets = $currentUser->tweets()->orderBy('created_at', 'desc')->get();
     return view('profile', compact('currentUser', 'users', 'tweets'));
 }
