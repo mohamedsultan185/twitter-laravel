@@ -69,6 +69,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tweet::class, 'retweets', 'user_id', 'tweet_id');
     }
+     
 
     public function followers()
     {

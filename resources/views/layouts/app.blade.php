@@ -8,7 +8,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="my-auto mx-auto" style="height: min-content;">
+<body>
     <div class="bg-gray-800">
         <div class="flex">
 
@@ -48,13 +48,15 @@
                     Profile
                 </x-nav-item>
 
+
+
                 <x-nav-item :route="route('approve.followRequest')">
                     <x-slot name="icon">
                         <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M10 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C17 15.4 17 16 16.462 16H3.538C3 16 3 15.4 3 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 10 3.464ZM4 3 3 2M2 7H1m15-4 1-1m1 5h1M6.54 16a3.48 3.48 0 0 0 6.92 0H6.54Z">
-                                    </g>
+                            </g>
                         </svg>
                     </x-slot>
                     Follow Requsets
@@ -65,7 +67,7 @@
                         <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                                    d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
                             </g>
                         </svg>
                     </x-slot>
@@ -77,11 +79,11 @@
                         <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </g>
                         </svg>
                     </x-slot>
-                 Notifications
+                    Notifications
                 </x-nav-item>
 
                 <x-nav-item :route="route('approve.followRequest')">
@@ -89,7 +91,7 @@
                         <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </g>
                         </svg>
                     </x-slot>
@@ -101,7 +103,7 @@
                         <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                             </g>
                         </svg>
                     </x-slot>
@@ -113,27 +115,43 @@
                         <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                             </g>
                         </svg>
                     </x-slot>
                     Lists
                 </x-nav-item>
 
-                 <x-nav-item :route="route('approve.followRequest')">
+                <x-nav-item :route="route('approve.followRequest')">
                     <x-slot name="icon">
                         <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </g>
                         </svg>
                     </x-slot>
                     More
                 </x-nav-item>
-            <button class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-                Tweet
-              </button>
+                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                    <x-nav-item :route="route('logout')">
+                        <x-slot name="icon">
+                            <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <g>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                     d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
+                                </g>
+                            </svg>
+                            <button type="submit">Logout</button>
+
+                        </x-slot>
+                    </x-nav-item>
+                </form>
+
+                <button class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+                    Tweet
+                </button>
 
                 <div class="flex-shrink-0 flex hover:bg-blue-00 rounded-full p-4 mt-12 mr-2">
                     <a href="#" class="flex-shrink-0 group block">
@@ -143,15 +161,15 @@
                                     alt="{{ Auth::user()->name }}">
                             </div>
                             <div class="ml-3">
-                                <a href="{{route('profile.show')}}">
-                                <p class="text-base leading-6 font-medium text-white">
-                                    {{ Auth::user()->name }}
-                                </p>
-                                <p
-                                    class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
-                                    {{ '@' . Auth::user()->username }}
+                                <a href="{{ route('profile.show') }}">
+                                    <p class="text-base leading-6 font-medium text-white">
+                                        {{ Auth::user()->name }}
+                                    </p>
+                                    <p
+                                        class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
+                                        {{ '@' . Auth::user()->username }}
 
-                                </p>
+                                    </p>
                                 </a>
                             </div>
                         </div>
@@ -169,8 +187,9 @@
                     <button type="submit" class="absolute ml-4 mt-3 mr-4">
                         <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px"
-                            y="0px" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;"
-                            xml:space="preserve" width="512px" height="512px">
+                            y="0px" viewBox="0 0 56.966 56.966"
+                            style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px"
+                            height="512px">
                             <path
                                 d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
                         </svg>
@@ -193,8 +212,9 @@
                         <div class="flex-1 px-4 py-2 m-2">
                             <a href=""
                                 class=" text-2xl rounded-full text-white hover:bg-blue-800 hover:text-blue-300 float-right">
-                                <svg class="m-2 h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="m-2 h-6 w-6" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path
                                         d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
                                     </path>
@@ -297,10 +317,10 @@
                     <!--show more-->
 
                     <div class="flex">
-                        <a href="{{route('all.users')}}">
-                        <div class="flex-1 p-4">
-                            <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
-                        </div>
+                        <a href="{{ route('all.users') }}">
+                            <div class="flex-1 p-4">
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
+                            </div>
                         </a>
                     </div>
 
@@ -338,10 +358,10 @@
                     <!--show more-->
 
                     <div class="flex">
-                        <a href="{{route('all.users')}}">
-                        <div class="flex-1 p-4">
-                            <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
-                        </div>
+                        <a href="{{ route('all.users') }}">
+                            <div class="flex-1 p-4">
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
+                            </div>
                         </a>
                     </div>
 

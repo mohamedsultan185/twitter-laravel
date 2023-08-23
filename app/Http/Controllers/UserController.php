@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function show()
-{
-    $currentUser = Auth::user();
-    $users = User::where('id', '!=', $currentUser->id)->inRandomOrder()->limit(5)->get();
-    $tweets = $currentUser->tweets()->orderBy('created_at', 'desc')->get();
-    return view('profile', compact('currentUser', 'users', 'tweets'));
-}
+    {
+        $currentUser = Auth::user();
+        $users = User::where('id', '!=', $currentUser->id)->inRandomOrder()->limit(5)->get();
+        $tweets = $currentUser->tweets()->orderBy('created_at', 'desc')->get();
+        return view('profile', compact('currentUser', 'users', 'tweets'));
+    }
 
 
     public function edit()
@@ -26,7 +26,8 @@ class UserController extends Controller
     }
     public function update(Request $request)
     {
-        $profile=Auth::user();
+        $profile = Auth::user();
+
         $request->validate([
             'name' => 'required',
             'username' => 'required',
@@ -34,82 +35,89 @@ class UserController extends Controller
             'birthday' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    // dd($request->input('name'));
 
-        $profile->update([
+        $data = [
             'name' => $request->input('name'),
             'username' => $request->input('username'),
             'phone' => $request->input('phone'),
             'birthday' => $request->input('birthday'),
-        ]);
+        ];
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('profile_images'), $imageName);
 
-// dd( $profile);
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('profile_images'), $imageName);
-
-        if ($profile->image) {
-            $oldImagePath = public_path('profile_images/' . $profile->image);
-            if (file_exists($oldImagePath)) {
-                unlink($oldImagePath);
+            if ($profile->image) {
+                $oldImagePath = public_path('profile_images/' . $profile->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
+
+            $data['image'] = $imageName;
         }
 
-        $profile->image = $imageName;
-        $profile->save();
-    }
-    return redirect()->route('profile.show', $profile)->with('success', 'Profile updated successfully.');
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->input('password'));
+        }
+
+        $profile->update($data);
+
+        return redirect()->route('profile.show', $profile)->with('success', 'Profile updated successfully.');
     }
 
-    public function allUsers()  {
+
+    public function allUsers()
+    {
         $currentUser = Auth::user();
         $users = User::where('id', '!=', $currentUser->id)->get();
-        return view('Users',compact('users'));
+        return view('Users', compact('users'));
     }
 
-    public function followed() {
+    public function followed()
+    {
         $currentUser = Auth::user();
         $users = $currentUser->following()->where('accepted', true)->get();
         return view('Users', compact('users'));
-
     }
-    public function followers() {
+    public function followers()
+    {
         $currentUser = Auth::user();
         $users = $currentUser->followers()->where('accepted', true)->get();
         return view('Users', compact('users'));
     }
 
-public function approveFollowRequest(User $user)
-{
-    auth()->user()->followers()->where('follower_id', $user->id)->where('accepted', 0)->update(['accepted'=> 1]);
+    public function approveFollowRequest(User $user)
+    {
+        auth()->user()->followers()->where('follower_id', $user->id)->where('accepted', 0)->update(['accepted' => 1]);
 
-    return redirect()->back();
+        return redirect()->back();
+    }
 
+    public function showFollowRequestApproval()
+    {
+        $users = auth()->user()->followers()->where('accepted', false)->get();
+        return view('requests', compact('users'));
+    }
+
+    public function userLike()
+    {
+
+        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $tweets = auth()->user()->likes()->orderBy('created_at', 'desc')->get();
+        return view('profile', compact('users', 'tweets'));
+    }
+    public function userRetweet()
+    {
+        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $tweets = auth()->user()->retweets()->orderBy('created_at', 'desc')->get();
+        return view('profile', compact('users', 'tweets'));
+    }
+    public function userReplay()
+    {
+        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $tweets = auth()->user()->tweets()->where('reply_to_tweet_id','!=',Null)->orderBy('created_at', 'desc')->get();
+        return view('profile', compact('users', 'tweets'));
+    }
 }
-
-public function showFollowRequestApproval()
-{
-    $users = auth()->user()->followers()->where('accepted', false)->get();
-    return view('requests', compact('users'));
-}
-
-public function userLike(){
-    $currentUser = auth()->user();
-    $users = User::where('id', '!=', $currentUser->id)->get();
-    $tweets = $currentUser->likes()->orderBy('created_at', 'desc')->get();
-    return view('profile',compact('users','currentUser','tweets'));
-
-}
-public function userRetweet(){
-    $currentUser = auth()->user();
-    $users = User::where('id', '!=', $currentUser->id)->get();
-    $tweets = $currentUser->retweets()->orderBy('created_at', 'desc')->get();
-    return view('profile',compact('users','currentUser','tweets'));
-
-}
-
-}
-
-

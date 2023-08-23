@@ -69,4 +69,6 @@ Route::get('/approve-follow-request', [UserController::class, 'showFollowRequest
 //userLike
 Route::get('/profile/userLike', [UserController::class, 'userLike'])->name('user.like')->middleware('auth');
 //user/Retweet
+Route::get('/profile/replays', [UserController::class, 'userReplay'])->name('user.replays')->middleware('auth');
+
 // Route::get('/profile/userLike', [UserController::class, 'userRetweet'])->name('user.retweet')->middleware('auth');

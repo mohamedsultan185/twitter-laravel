@@ -21,9 +21,15 @@
                     {{ $tweet->user->name }}
                     <span
                         class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
-                        {{ '@' . $tweet->user->username }} . {{ $tweet->created_at->format('d M') }}
+                        {{ '@' . $tweet->user->username }}
                     </span>
-                </p>
+                    @if ($tweet->reply_to_tweet_id!=null)
+                     <p
+                        class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
+                        {{ '@'.'replayto' . $tweet->user->username }}
+                    </p>
+                    @endif
+                    <span class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">{{ $tweet->created_at->format('d M') }}</span>
             </div>
         </div>
     </a>
