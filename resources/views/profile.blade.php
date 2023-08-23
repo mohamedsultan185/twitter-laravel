@@ -115,7 +115,7 @@
                         </span><span class="text-gray-600"> <a href="{{ route('followers') }}">Followers</a></span></div>
                 </div>
                 <div class="pt-3 flex justify-start items-start w-full divide-x divide-gray-800 divide-solid">
-                    <div class="text-center pr-3"><span class="font-bold text-white" >
+                    <div class="text-center pr-3"><span class="font-bold text-white">
                             {{ Auth::user()->tweets()->count() }}</span><span class="text-gray-600">
                             <a href="{{ route('profile.show') }}" @class([
                                 'text-blue-300' => Route::is('profile.show'),
@@ -124,24 +124,24 @@
                     </div>
                     <div class="text-center pr-3"><span class="font-bold text-white">
                             {{ Auth::user()->likes()->count() }}</span><span class="text-gray-600">
-                                <a href="{{ route('user.like') }}" @class([
-                                    'text-blue-300'=>Route::is('user.like')
-                                ])>Likes</a>
+                            <a href="{{ route('user.like') }}" @class([
+                                'text-blue-300' => Route::is('user.like'),
+                            ])>Likes</a>
                         </span></div>
 
-                <div class="text-center px-3"><span
-                        class="font-bold text-white">{{ Auth::user()->tweets()->where('reply_to_tweet_id', '!=', null)->count() }}
-                    </span><span class="text-gray-600">
+                    <div class="text-center px-3"><span
+                            class="font-bold text-white">{{ Auth::user()->tweets()->where('reply_to_tweet_id', '!=', null)->count() }}
+                        </span><span class="text-gray-600">
                             <a href="{{ route('user.replays') }} " @class([
-                                'text-blue-300'=>Route::is('user.replays')
+                                'text-blue-300' => Route::is('user.replays'),
                             ])>Replies</a>
-                    </span>
+                        </span>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr class="border-gray-800">
+        <hr class="border-gray-800">
 
     </div>
     <!-- Nav bar-->

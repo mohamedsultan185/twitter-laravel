@@ -117,7 +117,7 @@ class UserController extends Controller
     public function userReplay()
     {
         $users = User::where('id', '!=', auth()->user()->id)->get();
-        $tweets = auth()->user()->tweets()->where('reply_to_tweet_id','!=',Null)->orderBy('created_at', 'desc')->get();
+        $tweets = auth()->user()->tweets()->where('reply_to_tweet_id', '!=', Null)->orderBy('created_at', 'desc')->get();
         return view('profile', compact('users', 'tweets'));
     }
 }
