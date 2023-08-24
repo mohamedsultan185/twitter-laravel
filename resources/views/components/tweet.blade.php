@@ -1,13 +1,3 @@
-<!doctype html>
-<html lang="en" class="dark">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite('resources/css/app.css')
-
-</head>
 @props(['tweet'])
 <div class="flex flex-shrink-0 p-4 pb-0">
     <a href="#" class="flex-shrink-0 group block">
@@ -36,16 +26,19 @@
     </a>
 </div>
 
-<div class="pl-16">
+<div class="mx-10">
     <p class="text-base width-auto font-medium text-white flex-shrink">
         {{ $tweet->content }}
     </p>
 
 
-    <div class="md:flex-shrink pr-6 pt-3">
-        @if ($tweet->image)
-            <img src="{{ asset('tweet_images/' . $tweet->image) }}" alt="Tweet Image" width="600" height="800">
-        @endif
+    <div class="grid grid-cols-2 gap-4">
+        @foreach ($tweet->photos as $photo)
+            <div>
+                <img src="{{ asset('storage/tweet_images/' . $photo->image_path) }}" alt="Tweet Image">
+            </div>
+        @endforeach
+
     </div>
 
 
@@ -189,7 +182,3 @@
 
 </div>
 <hr class="border-gray-800">
-
-</body>
-
-</html>

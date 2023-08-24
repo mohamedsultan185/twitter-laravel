@@ -18,7 +18,9 @@
             </div>
             <div class="mx-2">
                 <h2 class="mb-0 text-xl font-bold text-white">{{ Auth::user()->username }}</h2>
-                <p class="mb-0 w-48 text-xs text-gray-400">{{ $tweets->count() }} tweets</p>
+                <p class="mb-0 w-48 text-xs text-gray-400">{{ $tweets->count() }}{{" "}}{{ Route::is('user.like') ? "Likes" : "Tweets" }}
+{{-- || Route::is('user.replays') ? "Replies" : "Tweets" --}}
+                </p>
             </div>
         </div>
 

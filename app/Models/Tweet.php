@@ -41,4 +41,11 @@ class Tweet extends Model
     {
         return $this->belongsTo(Tweet::class, 'reply_to_tweet_id');
     }
+
+    public function photos()
+    {
+        return $this->morphMany(Photo::class, 'imageable');
+    }
+
+
 }

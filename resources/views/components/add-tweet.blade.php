@@ -43,7 +43,7 @@
                     <div class="flex-1 text-center px-1 py-1 m-2">
                         <label for="imageInput"
                             class="mt-1 group flex items-center text-blue-400 px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 cursor-pointer">
-                            <input type="file" class="hidden" id="imageInput" name="image" accept="image/*">
+                            <input type="file" class="hidden" id="imageInput" name="images[]" accept="image/*" multiple>
                             <svg class="text-center h-7 w-6" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
                                 <path

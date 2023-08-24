@@ -43,30 +43,35 @@ class TweetController extends Controller
      */
     public function store(Request $request)
     {
-        // dd( $request->all());
-
         $request->validate([
             'content' => 'required|max:280',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Note the change here
         ]);
 
         $user = auth()->user();
+
         $tweetData = [
             'user_id' => $user->id,
             'content' => $request->input('content'),
         ];
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('tweet_images'), $imageName);
-            $tweetData['image'] = $imageName;
-        }
+        $tweet = Tweet::create($tweetData);
 
-        Tweet::create($tweetData);
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
+
+            foreach ($images as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('storage/tweet_images'), $imageName);
+                $tweet->photos()->create([
+                    'image_path' => $imageName,
+                ]); 
+            }
+        }
 
         return redirect()->route('tweets.index')->with('success', 'Tweet created successfully!');
     }
+
 
     /**
      * Display the specified resource.
