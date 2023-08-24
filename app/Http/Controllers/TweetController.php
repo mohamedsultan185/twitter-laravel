@@ -45,8 +45,8 @@ class TweetController extends Controller
     {
         $request->validate([
             'content' => 'required|max:280',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Note the change here
-        ]);
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'|'count=4', 
+        ],);
 
         $user = auth()->user();
 
@@ -59,13 +59,15 @@ class TweetController extends Controller
 
         if ($request->hasFile('images')) {
             $images = $request->file('images');
-
+            if (count($images) > 4) {
+              return redirect()->back()->withErrors(['images' => 'Please upload a maximum of 4 images.']);
+            }
             foreach ($images as $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('storage/tweet_images'), $imageName);
                 $tweet->photos()->create([
                     'image_path' => $imageName,
-                ]); 
+                ]);
             }
         }
 

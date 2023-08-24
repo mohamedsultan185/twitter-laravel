@@ -28,10 +28,13 @@
                     alt="{{ Auth::user()->name }}">
             </div>
             <div class="flex-1 px-2 pt-2 mt-2">
-                <form action="{{ route('tweets.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <textarea class="bg-transparent text-gray-400 font-medium text-lg w-full" name="content" rows="2" cols="50"
-                        placeholder="What's happening?"></textarea>
+                 <form action="{{ route('tweets.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <textarea class="bg-transparent text-gray-400 font-medium text-lg w-full" name="content" rows="2" cols="50"
+                    placeholder="What's happening?"></textarea>
+                @error('content')
+                    <p class="text-red-500">{{ $message }}</p>
+                @enderror
             </div>
         </div>
         <!-- middle create tweet below icons -->
@@ -41,9 +44,11 @@
                 <div class="flex items-center">
                     <!-- Upload Image -->
                     <div class="flex-1 text-center px-1 py-1 m-2">
-                        <label for="imageInput"
-                            class="mt-1 group flex items-center text-blue-400 px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 cursor-pointer">
-                            <input type="file" class="hidden" id="imageInput" name="images[]" accept="image/*" multiple>
+                     <label for="imageInput" class="mt-1 group flex items-center text-blue-400 ...">
+                        <input type="file" class="hidden" id="imageInput" name="images[]" accept="image/*" multiple>
+                          @error('images')
+                          <p class="text-red-500">{{ $message }}</p>
+                         @enderror
                             <svg class="text-center h-7 w-6" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
                                 <path

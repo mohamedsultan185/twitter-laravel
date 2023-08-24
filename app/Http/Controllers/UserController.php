@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Photo;
+use App\Models\Tweet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Tweet;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -34,6 +35,8 @@ class UserController extends Controller
             'phone' => 'required',
             'birthday' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cover_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+
         ]);
 
         $data = [
@@ -41,8 +44,8 @@ class UserController extends Controller
             'username' => $request->input('username'),
             'phone' => $request->input('phone'),
             'birthday' => $request->input('birthday'),
-        ];
 
+        ];
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
@@ -54,12 +57,47 @@ class UserController extends Controller
                     unlink($oldImagePath);
                 }
             }
-
-            $data['image'] = $imageName;
+            $profilePhoto = $profile->photos()->where('type', 'profile')->first();
+            if ($profilePhoto) {
+                $profilePhoto->image_path = $imageName;
+                $profilePhoto->save();
+            } else {
+                $profilePhoto = new Photo([
+                    'image_path' => $imageName,
+                    'type' => 'profile',
+                ]);
+                $profile->photos()->save($profilePhoto);
+            }
         }
 
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->input('password'));
+        }
+
+        if ($request->hasFile('cover_image')) {
+            $coverImage = $request->file('cover_image');
+            $coverImageName = time() . '_cover.' . $coverImage->getClientOriginalExtension();
+            $coverImage->move(public_path('cover_images'), $coverImageName);
+
+            if ($profile->cover_image) {
+                $oldCoverImagePath = public_path('cover_images/' . $profile->cover_image);
+                if (file_exists($oldCoverImagePath)) {
+                    unlink($oldCoverImagePath);
+                }
+            }
+
+            // Create or update the cover photo associated with the profile
+            $coverPhoto = $profile->photos()->where('type', 'cover')->first();
+            if ($coverPhoto) {
+                $coverPhoto->image_path = $coverImageName;
+                $coverPhoto->save();
+            } else {
+                $coverPhoto = new Photo([
+                    'image_path' => $coverImageName,
+                    'type' => 'cover',
+                ]);
+                $profile->photos()->save($coverPhoto);
+            }
         }
 
         $profile->update($data);

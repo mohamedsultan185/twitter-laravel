@@ -3,7 +3,7 @@
     <a href="#" class="flex-shrink-0 group block">
         <div class="flex items-center">
             <div>
-                <img class="inline-block h-10 w-10 rounded-full" src="{{ $tweet->user->profile_url }}"
+                <img class="inline-block h-10 w-10 rounded-full" src="{{ asset('profile_images/' . Auth::user()->photos()->where('type', 'profile')->value('image_path')) }}"
                     alt="{{ $tweet->user->name }}">
             </div>
             <div class="ml-3">

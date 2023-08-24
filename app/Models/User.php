@@ -69,7 +69,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tweet::class, 'retweets', 'user_id', 'tweet_id');
     }
-     
+
 
     public function followers()
     {
@@ -117,5 +117,9 @@ class User extends Authenticatable
     public function retweetedTweets()
     {
         return $this->belongsToMany(Tweet::class, 'retweets')->withTimestamps();
+    }
+    public function photos()
+    {
+        return $this->morphMany(Photo::class, 'imageable');
     }
 }

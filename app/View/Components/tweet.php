@@ -23,7 +23,7 @@ class tweet extends Component
 
     // public function excerpt($tweet,$limit = 6){
     //     return Str::limit($tweet,$limit);
-    // }
+// 
     // /**
     //  * Get the view / contents that represent the component.
     //  *

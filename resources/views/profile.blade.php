@@ -18,8 +18,9 @@
             </div>
             <div class="mx-2">
                 <h2 class="mb-0 text-xl font-bold text-white">{{ Auth::user()->username }}</h2>
-                <p class="mb-0 w-48 text-xs text-gray-400">{{ $tweets->count() }}{{" "}}{{ Route::is('user.like') ? "Likes" : "Tweets" }}
-{{-- || Route::is('user.replays') ? "Replies" : "Tweets" --}}
+                <p class="mb-0 w-48 text-xs text-gray-400">
+                    {{ $tweets->count() }}{{ ' ' }}{{ Route::is('user.like') ? 'Likes' : 'Tweets' }}
+                    {{-- || Route::is('user.replays') ? "Replies" : "Tweets" --}}
                 </p>
             </div>
         </div>
@@ -31,8 +32,8 @@
     <div>
         <div class="w-full bg-cover bg-no-repeat bg-center"
             style="height: 200px; background-image: url(https://pbs.twimg.com/profile_banners/2161323234/1585151401/600x200);">
-            <img class="opacity-0 w-full h-full" src="https://pbs.twimg.com/profile_banners/2161323234/1585151401/600x200"
-                alt="">
+            <img class="w-full h-full"
+              src="{{ asset('cover_images/' . Auth::user()->photos()->where('type', 'cover')->value('image_path')) }}">
         </div>
         <div class="p-4">
             <div class="relative flex w-full">
@@ -41,7 +42,7 @@
                     <div style="margin-top: -6rem;">
                         <div style="height:9rem; width:9rem;" class="md rounded-full relative avatar">
                             <img style="height:9rem; width:9rem;" class="md rounded-full relative border-4 border-gray-900"
-                                src="{{ Auth::user()->getProfileUrlAttribute() }}" alt="">
+                                src="{{ asset('profile_images/' . Auth::user()->photos()->where('type', 'profile')->value('image_path')) }}" alt="">
                             <div class="absolute"></div>
                         </div>
                     </div>
@@ -113,7 +114,8 @@
                     <div class="text-center pr-3"><span class="font-bold text-white">
                             {{ Auth::user()->following->count() }}</span><span class="text-gray-600">
                             <a href="{{ route('followed') }}">Following</a></span></div>
-                    <div class="text-center px-3"><span class="font-bold text-white"> {{ Auth::user()->followers->count() }}
+                    <div class="text-center px-3"><span class="font-bold text-white">
+                            {{ Auth::user()->followers->count() }}
                         </span><span class="text-gray-600"> <a href="{{ route('followers') }}">Followers</a></span></div>
                 </div>
                 <div class="pt-3 flex justify-start items-start w-full divide-x divide-gray-800 divide-solid">
