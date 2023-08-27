@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tweet;
 use App\Models\User;
+use App\Models\Tweet;
+use App\Models\Hashtag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,9 +21,10 @@ class TweetController extends Controller
         $currentUser = Auth::user();
         $followedUsersIds = $currentUser->following->pluck('id');
         $followedUsersIds[] = $currentUser->id;
+        $hashtags = Hashtag::withCount('tweets')->orderBy('tweets_count', 'desc')->get();
         $users = User::where('id', '!=', $currentUser->id)->inRandomOrder()->limit(5)->get();
         $tweets = Tweet::whereIn('user_id', $followedUsersIds)->orderBy('created_at', 'desc')->get();
-        return view('master', compact('tweets', 'users'));
+        return view('master', compact('tweets', 'users', 'hashtags'));
     }
 
     /**
@@ -45,7 +47,7 @@ class TweetController extends Controller
     {
         $request->validate([
             'content' => 'required|max:280',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'|'count=4', 
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'|'count=4',
         ],);
 
         $user = auth()->user();
@@ -54,8 +56,14 @@ class TweetController extends Controller
             'user_id' => $user->id,
             'content' => $request->input('content'),
         ];
-
         $tweet = Tweet::create($tweetData);
+        preg_match_all('/#(\w+)/', $request->input('content'), $matches);
+        $hashtags = $matches[1];
+        foreach ($hashtags as $hashtagName) {
+            $hashtag = Hashtag::firstOrCreate(['name' => $hashtagName]);
+            $tweet->hashtags()->attach($hashtag);
+        }
+
 
         if ($request->hasFile('images')) {
             $images = $request->file('images');

@@ -28,7 +28,12 @@
 
 <div class="mx-10">
     <p class="text-base width-auto font-medium text-white flex-shrink">
-        {{ $tweet->content }}
+        {!! preg_replace('/#(\w+)/', '', $tweet->content) !!}
+         @foreach ($tweet->hashtags as $hashtag)
+        <a class="text-blue-300"  href="{{ route('hashtags.show', ['hashtag' => $hashtag->name]) }}">
+            #{{ $hashtag->name }}
+        </a>
+    @endforeach
     </p>
 
 

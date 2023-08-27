@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <div class="container mx-auto">
-        <h1 class="text-2xl font-semibold font-bold mb-4">Update Profile</h1>
+        <br>
+        <h1 class="text-2xl font-semibold font-bold mb-4 dark:text-white">Update Profile</h1>
         <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="mt-4">
             @csrf
 
@@ -17,8 +18,8 @@
             </div>
             <div class="mb-4">
                 <label for="password" class="block font-medium dark:text-white">Password</label>
-                <input type="password" class="border rounded-md px-3 py-2 w-full dark:bg-gray-800 dark:text-white"
-                    id="password" name="password">
+                <input type="password" class="border rounded-md px-3 py-2 w-full dark:bg-gray-800 dark:text-white "
+                    autocomplete="" id="password" name="password">
             </div>
             <div class="mb-4">
                 <label for="confarm-password" class="block font-medium dark:text-white">Confarm Password</label>
@@ -42,7 +43,9 @@
                     <div class="flex-1 text-center px-1 py-1 m-2">
                         <label for="imageInput"
                             class="mt-1 group flex items-center text-blue-400 px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 cursor-pointer">
-                            <input type="file" class="hidden" id="imageInput" name="image" accept="image/*">
+                            <input type="file" class="hidden" id="imageInput" name="image" accept="image/*"><span>
+                                <h1>Profile Image</h1>
+                            </span>
                             <svg class="text-center h-7 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -64,7 +67,9 @@
                     <div class="flex-1 text-center px-1 py-1 m-2">
                         <label for="cover_image"
                             class="mt-1 group flex items-center text-blue-400 px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300 cursor-pointer">
-                            <input type="file" class="hidden" id="cover_image" name="cover_image" accept="image/*">
+                            <input type="file" class="hidden" id="cover_image" name="cover_image" accept="image/*"><span>
+                                <h1>Caver Image </h1>
+                            </span>
                             <svg class="text-center h-7 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
                                 <path

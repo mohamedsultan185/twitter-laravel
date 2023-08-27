@@ -46,6 +46,9 @@ class Tweet extends Model
     {
         return $this->morphMany(Photo::class, 'imageable');
     }
+    function hashtags() {
+        return $this->belongsToMany(Hashtag::class);
+    }
 
 
 }

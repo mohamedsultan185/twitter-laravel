@@ -133,14 +133,14 @@
                     </x-slot>
                     More
                 </x-nav-item>
-                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                     <x-nav-item :route="route('logout')">
                         <x-slot name="icon">
                             <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <g>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                     d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
+                                        d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
                                 </g>
                             </svg>
                             <button type="submit">Logout</button>
@@ -148,16 +148,18 @@
                         </x-slot>
                     </x-nav-item>
                 </form>
-
-                <button class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-                    Tweet
-                </button>
+                <a href="{{ route('tweets.index') }}">
+                    <button
+                        class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+                        Tweet
+                    </button></a>
 
                 <div class="flex-shrink-0 flex hover:bg-blue-00 rounded-full p-4 mt-12 mr-2">
                     <a href="#" class="flex-shrink-0 group block">
                         <div class="flex items-center">
                             <div>
-                                <img class="inline-block h-10 w-10 rounded-full" src="{{ asset('profile_images/' . Auth::user()->photos()->where('type', 'profile')->value('image_path')) }}"
+                                <img class="inline-block h-10 w-10 rounded-full"
+                                    src="{{ asset('profile_images/' .Auth::user()->photos()->where('type', 'profile')->value('image_path')) }}"
                                     alt="{{ Auth::user()->name }}">
                             </div>
                             <div class="ml-3">
@@ -207,7 +209,7 @@
 
                     <div class="flex">
                         <div class="flex-1 m-2">
-                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Germany trends</h2>
+                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Egyption trends</h2>
                         </div>
                         <div class="flex-1 px-4 py-2 m-2">
                             <a href=""
@@ -225,94 +227,13 @@
                     </div>
 
 
-                    <hr class="border-gray-600">
 
                     <!--first trending tweet-->
-                    <div class="flex">
-                        <div class="flex-1">
-                            <p class="px-4 ml-2 mt-3 w-48 text-xs text-gray-400">1 . Trending</p>
-                            <h2 class="px-4 ml-2 w-48 font-bold text-white">#Microsoft363</h2>
-                            <p class="px-4 ml-2 mb-3 w-48 text-xs text-gray-400">5,466 Tweets</p>
+                    @yield('hashtag')
 
-                        </div>
-                        <div class="flex-1 px-4 py-2 m-2">
-                            <a href=""
-                                class=" text-2xl rounded-full text-gray-400 hover:bg-blue-800 hover:text-blue-300 float-right">
-                                <svg class="m-2 h-5 w-5" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="border-gray-600">
 
                     <!--second trending tweet-->
 
-                    <div class="flex">
-                        <div class="flex-1">
-                            <p class="px-4 ml-2 mt-3 w-48 text-xs text-gray-400">2 . Politics . Trending</p>
-                            <h2 class="px-4 ml-2 w-48 font-bold text-white">#HI-Fashion</h2>
-                            <p class="px-4 ml-2 mb-3 w-48 text-xs text-gray-400">8,464 Tweets</p>
-
-                        </div>
-                        <div class="flex-1 px-4 py-2 m-2">
-                            <a href=""
-                                class=" text-2xl rounded-full text-gray-400 hover:bg-blue-800 hover:text-blue-300 float-right">
-                                <svg class="m-2 h-5 w-5" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="border-gray-600">
-
-                    <!--third trending tweet-->
-
-                    <div class="flex">
-                        <div class="flex-1">
-                            <p class="px-4 ml-2 mt-3 w-48 text-xs text-gray-400">3 . Rock . Trending</p>
-                            <h2 class="px-4 ml-2 w-48 font-bold text-white">#Ferrari</h2>
-                            <p class="px-4 ml-2 mb-3 w-48 text-xs text-gray-400">5,586 Tweets</p>
-
-                        </div>
-                        <div class="flex-1 px-4 py-2 m-2">
-                            <a href=""
-                                class=" text-2xl rounded-full text-gray-400 hover:bg-blue-800 hover:text-blue-300 float-right">
-                                <svg class="m-2 h-5 w-5" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="border-gray-600">
-
-                    <!--forth trending tweet-->
-
-                    <div class="flex">
-                        <div class="flex-1">
-                            <p class="px-4 ml-2 mt-3 w-48 text-xs text-gray-400">4 . Auto Racing . Trending</p>
-                            <h2 class="px-4 ml-2 w-48 font-bold text-white">#vettel</h2>
-                            <p class="px-4 ml-2 mb-3 w-48 text-xs text-gray-400">9,416 Tweets</p>
-
-                        </div>
-                        <div class="flex-1 px-4 py-2 m-2">
-                            <a href=""
-                                class=" text-2xl rounded-full text-gray-400 hover:bg-blue-800 hover:text-blue-300 float-right">
-                                <svg class="m-2 h-5 w-5" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="border-gray-600">
 
                     <!--show more-->
 

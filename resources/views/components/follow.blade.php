@@ -3,7 +3,7 @@
     <div class="flex items-center">
         <div>
             <img class="inline-block h-10 w-auto rounded-full ml-4 mt-2" src="{{ $user->getProfileUrlAttribute() }}"
-                alt="" />
+                alt="tootototttoto" />
         </div>
         <div class="ml-3 mt-3">
             <p class="text-base leading-6 font-medium text-white">

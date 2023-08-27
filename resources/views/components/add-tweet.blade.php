@@ -24,7 +24,7 @@
         <div class="flex">
             <div class="m-2 w-10 py-1">
 
-                <img class="inline-block h-10 w-10 rounded-full" src="{{ Auth::user()->profile_url }}"
+                <img class="inline-block h-10 w-10 rounded-full" src="{{ asset('profile_images/' . Auth::user()->photos()->where('type', 'profile')->value('image_path'))  }}"
                     alt="{{ Auth::user()->name }}">
             </div>
             <div class="flex-1 px-2 pt-2 mt-2">

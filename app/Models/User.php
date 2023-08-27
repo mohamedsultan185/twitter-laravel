@@ -3,11 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 
@@ -101,7 +102,7 @@ class User extends Authenticatable
     }
     function getProfileUrlAttribute()
     {
-        return $this->image ? asset('profile_images/' . $this->image) : asset('img/sultan.jpg');
+        return $this->image ? asset('profile_images/' . User::user()->photos()->where('type', 'profile')->value('image_path')) : asset('img/sultan.jpg');
     }
     public function likedTweets()
     {

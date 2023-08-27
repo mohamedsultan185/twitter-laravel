@@ -72,3 +72,6 @@ Route::get('/profile/userLike', [UserController::class, 'userLike'])->name('user
 Route::get('/profile/replays', [UserController::class, 'userReplay'])->name('user.replays')->middleware('auth');
 
 // Route::get('/profile/userLike', [UserController::class, 'userRetweet'])->name('user.retweet')->middleware('auth');
+//Display Hashtag
+Route::get('/hashtags/{hashtag}', 'HashtagController@show')->name('hashtags.show');
+
