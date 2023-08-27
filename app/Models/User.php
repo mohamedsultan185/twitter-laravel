@@ -87,33 +87,30 @@ class User extends Authenticatable
     {
         return $this->following()->where('accepted', true)->where('followed_id', $user->id)->exists();
     }
+
     public function isPending(User $user)
     {
         return $this->following()->where('accepted', false)->where('followed_id', $user->id)->exists();
     }
+
     public function FollowRequest(User $otherUser)
     {
         return $this->followers()->where('follower_id', $otherUser->id)->where('accepted', false);
     }
 
-    function getAvatarUrlAttribute()
+    public function getAvatarUrlAttribute()
     {
         return $this->image ? asset('tweet_images/' . $this->image) : asset('img/sultan.jpg');
     }
-    function getProfileUrlAttribute()
+    public function getProfileUrlAttribute()
     {
         return $this->image ? asset('profile_images/' . User::user()->photos()->where('type', 'profile')->value('image_path')) : asset('img/sultan.jpg');
     }
+
     public function likedTweets()
     {
         return $this->belongsToMany(Tweet::class, 'likes')->withTimestamps();
     }
-
-    // public function hasRetweeted(Tweet $tweet)
-    // {
-    //     return $this->retweets->contains('tweet_id', $tweet->id);
-    // }
-
 
     public function retweetedTweets()
     {

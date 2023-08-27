@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Photo;
 use App\Models\Tweet;
+use App\Models\Hashtag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -109,7 +110,7 @@ class UserController extends Controller
     public function allUsers()
     {
         $currentUser = Auth::user();
-        $users = User::where('id', '!=', $currentUser->id)->get();
+        $users = User::where('id', '!=', $currentUser->id)->inRandomOrder()->limit(5)->get();
         return view('Users', compact('users'));
     }
 
@@ -136,7 +137,10 @@ class UserController extends Controller
     public function showFollowRequestApproval()
     {
         $users = auth()->user()->followers()->where('accepted', false)->get();
-        return view('requests', compact('users'));
+        $hashtags = Hashtag::withCount('tweets')->orderBy('tweets_count', 'desc');
+        $userss = User::where('id', '!=', auth()->user()->id)->inRandomOrder()->limit(5)->get();
+
+        return view('requests', compact('users', 'hashtags', 'userss'));
     }
 
     public function userLike()
@@ -144,6 +148,7 @@ class UserController extends Controller
 
         $users = User::where('id', '!=', auth()->user()->id)->get();
         $tweets = auth()->user()->likes()->orderBy('created_at', 'desc')->get();
+
         return view('profile', compact('users', 'tweets'));
     }
     public function userRetweet()
@@ -156,6 +161,7 @@ class UserController extends Controller
     {
         $users = User::where('id', '!=', auth()->user()->id)->get();
         $tweets = auth()->user()->tweets()->where('reply_to_tweet_id', '!=', Null)->orderBy('created_at', 'desc')->get();
+
         return view('profile', compact('users', 'tweets'));
     }
 }

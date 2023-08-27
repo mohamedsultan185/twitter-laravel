@@ -1,6 +1,7 @@
 @props(['user', 'tmp'])
 <div class="flex-1 ">
     <div class="flex items-center">
+        {{-- Photo Profile --}}
         <div>
             <img class="inline-block h-10 w-auto rounded-full ml-4 mt-2" src="{{ $user->getProfileUrlAttribute() }}"
                 alt="tootototttoto" />
@@ -14,6 +15,7 @@
                 {{ $user->username }}
             </p>
         </div>
+        {{-- Follow /Depnding --}}
         <div class="flex-1 px-4 py-2 m-2">
             <a href="" class=" float-right">
                 @if (auth()->user()->isFollowing($user) ||

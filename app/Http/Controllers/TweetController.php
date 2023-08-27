@@ -21,7 +21,7 @@ class TweetController extends Controller
         $currentUser = Auth::user();
         $followedUsersIds = $currentUser->following->pluck('id');
         $followedUsersIds[] = $currentUser->id;
-        $hashtags = Hashtag::withCount('tweets')->orderBy('tweets_count', 'desc')->get();
+        $hashtags = Hashtag::withCount('tweets')->orderBy('tweets_count', 'desc')->inRandomOrder()->limit(5)->get();
         $users = User::where('id', '!=', $currentUser->id)->inRandomOrder()->limit(5)->get();
         $tweets = Tweet::whereIn('user_id', $followedUsersIds)->orderBy('created_at', 'desc')->get();
         return view('master', compact('tweets', 'users', 'hashtags'));
@@ -47,8 +47,11 @@ class TweetController extends Controller
     {
         $request->validate([
             'content' => 'required|max:280',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'|'count=4',
-        ],);
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'images.*.max' => 'Please upload images with a maximum size of 2MB.',
+        ]);
+
 
         $user = auth()->user();
 

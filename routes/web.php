@@ -17,14 +17,6 @@ use App\Http\Controllers\FollowController;
 |
 */
 
-Route::get('/test', function () {
-    return view('test');
-});
-
-Route::get('/test1', function () {
-    return view('test1');
-});
-
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -12,12 +12,11 @@ class Tweet extends Model
     use SoftDeletes;
     protected $fillable = ['content', 'image', 'retweet_id', 'reply_to_tweet_id', 'user_id'];
     protected $dates = ['deleted_at'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-
 
 
     public function replies()
@@ -29,13 +28,12 @@ class Tweet extends Model
         // dd($this);
         return $this->belongsToMany(User::class, 'likes')->withTimestamps();
     }
+
     public function retweets()
     {
         // dd($this);
         return $this->belongsToMany(User::class, 'retweets')->withTimestamps();
     }
-
-
 
     public function originalTweet()
     {
@@ -46,6 +44,7 @@ class Tweet extends Model
     {
         return $this->morphMany(Photo::class, 'imageable');
     }
+
     function hashtags() {
         return $this->belongsToMany(Hashtag::class);
     }

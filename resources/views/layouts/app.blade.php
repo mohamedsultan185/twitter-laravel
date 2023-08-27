@@ -8,8 +8,10 @@
     @vite('resources/css/app.css')
 </head>
 
-<body>
-    <div class="bg-gray-800">
+<body >
+    <div class="bg-gray-800 ">
+                    <hr class="border-gray-600">
+
         <div class="flex">
 
             <div class="w-2/5 text-white h-12 pl-32 py-4 h-auto">
@@ -178,6 +180,7 @@
                     </a>
                 </div>
 
+
             </div>
             <div class="w-3/5 border border-gray-600 h-auto  border-t-0">
                 @yield('content')
@@ -281,35 +284,28 @@
                     <div class="flex">
                         <a href="{{ route('all.users') }}">
                             <div class="flex-1 p-4">
-                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a href="">Show more</a></h2>
                             </div>
                         </a>
                     </div>
 
                 </div>
 
-                <div class="flow-root m-6 inline">
-                    <div class="flex-1">
-                        <a href="#">
-                            <p class="text-sm leading-6 font-medium text-gray-500">Terms Privacy Policy Cookies Imprint
-                                Ads info</p>
-                        </a>
-                    </div>
-                    <div class="flex-2">
-                        <p class="text-sm leading-6 font-medium text-gray-600"> © 2020 Twitter, Inc.</p>
-                    </div>
-                </div>
+
             </div>
+
         </div>
+                            <br><br><br><br><br>
+
+
     </div>
 
 
 
-    </div>
+
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
-
 </body>
 
 </html>
