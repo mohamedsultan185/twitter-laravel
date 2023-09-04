@@ -1,5 +1,5 @@
-@props(['user', 'tmp'])
-<div class="flex-1 ">
+@props(['user'])
+<div class="flex-1">
     <div class="flex items-center">
         {{-- Photo Profile --}}
         <div>
@@ -43,3 +43,4 @@
         </div>
     </div>
 </div>
+

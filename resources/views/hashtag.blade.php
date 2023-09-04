@@ -1,28 +1,16 @@
 @extends('layouts.app')
 @section('content')
-    <br>
-    <h1 class="text-2xl font-semibold font-bold mb-4 dark:text-white">User Requset</h1>
-    <div class="flex space-y-4 flex-col">
-        @foreach ($users as $user)
-            <x-accepted :user="$user" />
-        @endforeach
-    </div>
-@endsection
-
-@section('hashtag')
-    @foreach ($hashtags as $hashtag)
-        <div class="flex">
+@foreach ($hashtags as $hashtag)
+<div class="flex">
             <div class="flex-1">
                 <p class="px-4 ml-2 mt-3 w-48 text-xs text-gray-400"></p>
-                <h2 class="px-4 ml-2 w-48 font-bold text-white"> <a
-                        href="{{ route('hashtags.show', ['hashtag' => $hashtag->name]) }}">
-                        #{{ $hashtag->name }}</a>
-                </h2>
+                <h2 class="px-4 ml-2 w-48 font-bold text-white"> <a href="{{ route('hashtags.show', ['hashtag' => $hashtag->name]) }}">
+    #{{ $hashtag->name }}</a>
+        </h2>
                 <p class="px-4 ml-2 mb-3 w-48 text-xs text-gray-400">({{ $hashtag->tweets_count }})
                     Tweets</p>
 
             </div>
-
 
             <div class="flex-1 px-4 py-2 m-2">
                 <a href=""
@@ -35,20 +23,9 @@
             </div>
 
         </div>
-        <br><br>
     @endforeach
-
-    <hr class="border-gray-600">
-@endsection
-
+    @endsection
+    @section('hashtag')
      <x-hashtag :hashtags="$hashtags"/>
     <hr class="border-gray-600">
-
-@section('follow')
-
-    @if ($userss)
-        @foreach ($userss as $user)
-            <x-follow :user="$user" />
-        @endforeach
-    @endif
 @endsection

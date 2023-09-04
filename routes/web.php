@@ -67,3 +67,7 @@ Route::get('/profile/replays', [UserController::class, 'userReplay'])->name('use
 //Display Hashtag
 Route::get('/hashtags/{hashtag}', 'HashtagController@show')->name('hashtags.show');
 
+Route::get('/hashtage',function () {
+return view('hashtag');
+
+});

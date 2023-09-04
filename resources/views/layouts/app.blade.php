@@ -8,9 +8,9 @@
     @vite('resources/css/app.css')
 </head>
 
-<body >
+<body>
     <div class="bg-gray-800 ">
-                    <hr class="border-gray-600">
+        <hr class="border-gray-600">
 
         <div class="flex">
 
@@ -233,6 +233,8 @@
 
                     <!--first trending tweet-->
                     @yield('hashtag')
+                    <x-hashtag :hashtags="$hashtags" />
+
 
 
                     <!--second trending tweet-->
@@ -261,20 +263,14 @@
                     </div>
 
 
+
                     <hr class="border-gray-600">
+
 
                     <!--first person who to follow-->
 
 
                     @yield('follow')
-
-
-
-
-                    <!--second person who to follow-->
-
-
-
                     <hr class="border-gray-600">
 
 
@@ -284,7 +280,8 @@
                     <div class="flex">
                         <a href="{{ route('all.users') }}">
                             <div class="flex-1 p-4">
-                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a href="">Show more</a></h2>
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a href="">Show more</a>
+                                </h2>
                             </div>
                         </a>
                     </div>
@@ -295,7 +292,13 @@
             </div>
 
         </div>
-                            <br><br><br><br><br>
+        <br><br><br><br><br>
+        <br><br><br><br><br>
+        <br><br><br><br>
+        <br><br>
+        <br>
+
+
 
 
     </div>

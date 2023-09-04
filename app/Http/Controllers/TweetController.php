@@ -21,10 +21,9 @@ class TweetController extends Controller
         $currentUser = Auth::user();
         $followedUsersIds = $currentUser->following->pluck('id');
         $followedUsersIds[] = $currentUser->id;
-        $hashtags = Hashtag::withCount('tweets')->orderBy('tweets_count', 'desc')->inRandomOrder()->limit(5)->get();
         $users = User::where('id', '!=', $currentUser->id)->inRandomOrder()->limit(5)->get();
         $tweets = Tweet::whereIn('user_id', $followedUsersIds)->orderBy('created_at', 'desc')->get();
-        return view('master', compact('tweets', 'users', 'hashtags'));
+        return view('master', compact('tweets', 'users', ));
     }
 
     /**
