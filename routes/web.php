@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TweetController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TweetController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\NotificationController;
 
 
 /*
@@ -71,3 +72,5 @@ Route::get('/hashtage',function () {
 return view('hashtag');
 
 });
+
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');

@@ -8,13 +8,6 @@
     <!-- Tweet end -->
 @endsection
 
-@section('hashtag')
-
-
-        <x-hashtag :hashtags="$hashtags"/>
-
-    <hr class="border-gray-600">
-@endsection
 
 
 @section('follow')

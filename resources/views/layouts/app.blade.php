@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite('resources/css/app.css')
+
 </head>
 
 <body>
@@ -75,18 +76,63 @@
                     </x-slot>
                     Explore
                 </x-nav-item>
-
-                <x-nav-item :route="route('approve.followRequest')">
-                    <x-slot name="icon">
-                        <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <!-- Button to trigger the modal -->
+                <button id="openModalButton" class="rounded-full hover:bg-blue-800 hover:text-blue-300"
+                    data-modal-target="staticModal" data-modal-toggle="staticModal" type="button">
+                    <a
+                        class="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-blue-800 hover:text-blue-300">
+                       <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                    d="M10 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C17 15.4 17 16 16.462 16H3.538C3 16 3 15.4 3 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 10 3.464ZM4 3 3 2M2 7H1m15-4 1-1m1 5h1M6.54 16a3.48 3.48 0 0 0 6.92 0H6.54Z">
                             </g>
                         </svg>
-                    </x-slot>
-                    Notifications
-                </x-nav-item>
+                        Notifications
+                    </a>
+                </button>
+
+                <!-- Main modal -->
+                <div id="staticModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+                    class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative w-full max-w-2xl max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <!-- Modal header -->
+                            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Notification</h3>
+                                <button type="button"
+                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    data-modal-hide="staticModal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 14 14">
+                                        <!-- SVG path for a close icon -->
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="p-6 space-y-6">
+                                <div id="notifications-content">
+                                    <!-- Notification content will be inserted here using JavaScript -->
+                                </div>
+                            </div>
+                            <!-- Modal footer -->
+                            <div
+                                class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                <button data-modal-hide="staticModal" type="button"
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
+                                    accept
+                                </button>
+                                <button data-modal-hide="staticModal" type="button"
+                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
 
                 <x-nav-item :route="route('approve.followRequest')">
                     <x-slot name="icon">
@@ -123,62 +169,65 @@
                     </x-slot>
                     Lists
                 </x-nav-item>
+                <a href="">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                        class="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-blue-800 hover:text-blue-300">
+                        @csrf
+                        <x-nav-item :route="route('logout')">
+                            <x-slot name="icon">
+                                <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <g>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
+                                    </g>
+                                </svg>
+                                <button type="submit">Logout</button>
 
-                <x-nav-item :route="route('approve.followRequest')">
-                    <x-slot name="icon">
-                        <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                            <g>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </g>
-                        </svg>
-                    </x-slot>
-                    More
-                </x-nav-item>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                    <x-nav-item :route="route('logout')">
+                            </x-slot>
+                        </x-nav-item>
+                    </form>
+
+                    <x-nav-item :route="route('approve.followRequest')">
                         <x-slot name="icon">
                             <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <g>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
+                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </g>
                             </svg>
-                            <button type="submit">Logout</button>
-
                         </x-slot>
+                        More
                     </x-nav-item>
-                </form>
-                <a href="{{ route('tweets.index') }}">
-                    <button
-                        class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-                        Tweet
-                    </button></a>
 
-                <div class="flex-shrink-0 flex hover:bg-blue-00 rounded-full p-4 mt-12 mr-2">
-                    <a href="#" class="flex-shrink-0 group block">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="inline-block h-10 w-10 rounded-full"
-                                    src="{{ asset('profile_images/' .Auth::user()->photos()->where('type', 'profile')->value('image_path')) }}"
-                                    alt="{{ Auth::user()->name }}">
-                            </div>
-                            <div class="ml-3">
-                                <a href="{{ route('profile.show') }}">
-                                    <p class="text-base leading-6 font-medium text-white">
-                                        {{ Auth::user()->name }}
-                                    </p>
-                                    <p
-                                        class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
-                                        {{ '@' . Auth::user()->username }}
+                    <a href="{{ route('tweets.index') }}">
+                        <button
+                            class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+                            Tweet
+                        </button></a>
 
-                                    </p>
-                                </a>
+                    <div class="flex-shrink-0 flex hover:bg-blue-00 rounded-full p-4 mt-12 mr-2">
+                        <a href="#" class="flex-shrink-0 group block">
+                            <div class="flex items-center">
+                                <div>
+                                    <img class="inline-block h-10 w-10 rounded-full"
+                                        src="{{ asset('profile_images/' .Auth::user()->photos()->where('type', 'profile')->value('image_path')) }}"
+                                        alt="{{ Auth::user()->name }}">
+                                </div>
+                                <div class="ml-3">
+                                    <a href="{{ route('profile.show') }}">
+                                        <p class="text-base leading-6 font-medium text-white">
+                                            {{ Auth::user()->name }}
+                                        </p>
+                                        <p
+                                            class="text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
+                                            {{ '@' . Auth::user()->username }}
+
+                                        </p>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
 
 
             </div>
@@ -304,11 +353,55 @@
     </div>
 
 
-
-
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+
+        $('#openModalButton').click(function() {
+            console.log('Button clicked.');
+
+            $.ajax({
+                url: '{{ route('notifications.index') }}',
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    var notifications = response.notifications;
+                    var notificationsContent = $('#notifications-content');
+
+                    notificationsContent.empty();
+
+                    if (notifications.length === 0) {
+                        console.log(
+                            'No notifications found.'
+                            ); // Add a log statement for no notifications.
+                        notificationsContent.html('<p>No notifications</p>');
+                    } else {
+                        console.log(notifications
+                            ); // Add a log statement for displaying notifications.
+                        $.each(notifications, function(index, notifications) {
+                            var notificationHtml = '<div class="notification">' +
+                                '<p> '+  notifications.data.user_name+' '+'teweet :'+ ' ' +  notifications.data.tweet_content + '</p>' +
+                                '<br>'
+
+                                '</div>';
+                            notificationsContent.append(notificationHtml);
+                        });
+                    }
+
+                    $('#staticModal').modal('show');
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
 
 </html>

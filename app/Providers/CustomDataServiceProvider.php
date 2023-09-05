@@ -29,6 +29,17 @@ class CustomDataServiceProvider extends ServiceProvider
     {
         $hashtags = Hashtag::withCount('tweets')->orderBy('tweets_count', 'desc')->inRandomOrder()->limit(5)->get();
         view()->share('hashtags', $hashtags);
+        // if (auth()->check()) {
+        //     $user = auth()->user();
+        //     $notifications = $user->notifications;
+        //     view()->share('user', $user);
+        //     view()->share('notifications', $notifications);
+
+        // } else {
+        //     view()->share('notifications', "batata");
+
+        // }
+
 
 
     }

@@ -7,6 +7,7 @@ use App\Models\Tweet;
 use App\Models\Hashtag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\NewTweetNotification;
 
 
 class TweetController extends Controller
@@ -59,6 +60,11 @@ class TweetController extends Controller
             'content' => $request->input('content'),
         ];
         $tweet = Tweet::create($tweetData);
+        $followers = $tweet->user->followers;
+        foreach ($followers as $follower) {
+            $follower->notify(new NewTweetNotification($tweet));
+        }
+
         preg_match_all('/#(\w+)/', $request->input('content'), $matches);
         $hashtags = $matches[1];
         foreach ($hashtags as $hashtagName) {

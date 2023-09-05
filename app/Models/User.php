@@ -35,7 +35,6 @@ class User extends Authenticatable
     ];
     protected $dates = ['deleted_at'];
 
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -71,7 +70,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Tweet::class, 'retweets', 'user_id', 'tweet_id');
     }
 
-
     public function followers()
     {
         return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id');
@@ -102,9 +100,19 @@ class User extends Authenticatable
     {
         return $this->image ? asset('tweet_images/' . $this->image) : asset('img/sultan.jpg');
     }
+
     public function getProfileUrlAttribute()
     {
-        return $this->image ? asset('profile_images/' . User::user()->photos()->where('type', 'profile')->value('image_path')) : asset('img/sultan.jpg');
+        if ($this->image) {
+            $profilePhoto = $this->photos()->where('type', 'profile')->first();
+
+            if ($profilePhoto) {
+                return asset('profile_images/' . $profilePhoto->image_path);
+            }
+        }
+
+        // If there is no profile photo, return a default image URL
+        return asset('img/sultan.jpg');
     }
 
     public function likedTweets()
@@ -116,8 +124,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tweet::class, 'retweets')->withTimestamps();
     }
+
     public function photos()
     {
         return $this->morphMany(Photo::class, 'imageable');
     }
+
 }
