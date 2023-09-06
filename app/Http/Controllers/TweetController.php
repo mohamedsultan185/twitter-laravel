@@ -7,7 +7,10 @@ use App\Models\Tweet;
 use App\Models\Hashtag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\LikeNotification;
 use App\Notifications\NewTweetNotification;
+use App\Notifications\RetweetNotification;
+use Illuminate\Support\Facades\Notification;
 
 
 class TweetController extends Controller
@@ -137,8 +140,13 @@ class TweetController extends Controller
     }
     public function toggleLike(Tweet $tweet)
     {
+
         $user = auth()->user();
+        $postOwner = $tweet->user; // The user who owns the post
         $user->likedTweets()->toggle($tweet->id);
+        Notification::send($postOwner, new LikeNotification($tweet));
+
+
         return back();
     }
 
@@ -146,6 +154,8 @@ class TweetController extends Controller
     {
         $user = auth()->user();
         $user->retweetedTweets()->toggle($tweet->id);
+        $postOwner = $tweet->user; // The user who owns the post
+        Notification::send($postOwner, new RetweetNotification($tweet));
         return back();
     }
     public function reply(Tweet $tweet, Request $request)
@@ -159,6 +169,7 @@ class TweetController extends Controller
         $newReply->user_id = auth()->user()->id;
         $newReply->reply_to_tweet_id = $tweet->id;
         $newReply->save();
+
 
         return back()->with('success', 'Reply posted successfully.');
     }

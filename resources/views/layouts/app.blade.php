@@ -81,7 +81,7 @@
                     data-modal-target="staticModal" data-modal-toggle="staticModal" type="button">
                     <a
                         class="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-blue-800 hover:text-blue-300">
-                       <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <svg class="mr-4 h-6 w-6 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <g>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M10 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C17 15.4 17 16 16.462 16H3.538C3 16 3 15.4 3 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 10 3.464ZM4 3 3 2M2 7H1m15-4 1-1m1 5h1M6.54 16a3.48 3.48 0 0 0 6.92 0H6.54Z">
@@ -376,18 +376,42 @@
                     if (notifications.length === 0) {
                         console.log(
                             'No notifications found.'
-                            ); // Add a log statement for no notifications.
+                        ); // Add a log statement for no notifications.
                         notificationsContent.html('<p>No notifications</p>');
                     } else {
-                        console.log(notifications
-                            ); // Add a log statement for displaying notifications.
+                        console.log(
+                        notifications); // Add a log statement for displaying notifications.
                         $.each(notifications, function(index, notifications) {
-                            var notificationHtml = '<div class="notification">' +
-                                '<p> '+  notifications.data.user_name+' '+'teweet :'+ ' ' +  notifications.data.tweet_content + '</p>' +
-                                '<br>'
+                            if (notifications.data.type == 'tweet') {
+                                var notificationHtml =
+                                    '<div class="notification">' +
+                                    '<p> ' + notifications.data.message +
+                                    notifications.data.tweet_content + '</p>' +
+                                    '<br>'
 
                                 '</div>';
-                            notificationsContent.append(notificationHtml);
+                                notificationsContent.append(notificationHtml);
+                            }
+                            if (notifications.data.type == 'like') {
+                                var notificationHtml =
+                                    '<div class="notification">' +
+                                    '<p> ' + notifications.data.user_name + ' ' +
+                                    notifications.data.message + '</p>' +
+                                    '<br>'
+
+                                '</div>';
+                                notificationsContent.append(notificationHtml);
+                            }
+                            if (notifications.data.type == 'retweet') {
+                                var notificationHtml =
+                                    '<div class="notification">' +
+                                    '<p> ' + notifications.data.user_name + '' +
+                                    notifications.data.message + '</p>' +
+                                    '<br>'
+
+                                '</div>';
+                                notificationsContent.append(notificationHtml);
+                            }
                         });
                     }
 
@@ -399,6 +423,30 @@
             });
         });
     });
+</script>
+
+<script>
+    function openModal() {
+        const modal = document.getElementById("defaultModal");
+        modal.classList.remove("hidden");
+        modal.setAttribute("aria-hidden", "false");
+        modal.style.overflowY = "auto";
+        document.body.classList.add("modal-open");
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("defaultModal");
+        modal.classList.add("hidden");
+        modal.setAttribute("aria-hidden", "true");
+        modal.style.overflowY = "hidden";
+        document.body.classList.remove("modal-open");
+    }
+
+    const openButton = document.querySelector("[data-modal-toggle='defaultModal']");
+    openButton.addEventListener("click", openModal);
+
+    const closeButton = document.querySelector("[data-modal-hide='defaultModal']");
+    closeButton.addEventListener("click", closeModal);
 </script>
 
 

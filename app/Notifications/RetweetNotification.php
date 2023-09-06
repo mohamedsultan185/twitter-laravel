@@ -7,11 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewTweetNotification extends Notification
+class RetweetNotification extends Notification
 {
     use Queueable;
     protected $tweet;
-
 
     /**
      * Create a new notification instance.
@@ -20,8 +19,10 @@ class NewTweetNotification extends Notification
      */
     public function __construct($tweet)
     {
-        $this->tweet = $tweet;
+        return ['mail', 'database'];
+
     }
+
     /**
      * Get the notification's delivery channels.
      *
@@ -30,10 +31,10 @@ class NewTweetNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail','database'];
     }
 
-    /**cle
+    /**
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
@@ -41,14 +42,10 @@ class NewTweetNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $tweet = $this->tweet;
-        $tweetAuthor = $tweet->user->name;
-
         return (new MailMessage)
-            ->line("{$tweetAuthor} has posted a new tweet:")
-            ->line("Tweet Content: {$tweet->content}")
-            ->action('View Tweet', url("/tweets/{$tweet->id}"))
-            ->line('Thank you for using our application!');
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -59,19 +56,10 @@ class NewTweetNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        $tweet = $this->tweet;
-        $tweetAuthor = $tweet->user->name;
-        
-
         return [
-            'type' => 'tweet',
-            'tweet_id' => $this->tweet->id,
-            'user_name' => $this->tweet->user->name,
-            'tweet_content' => $this->tweet->content,
-            'message' => "{$tweetAuthor} has posted a new tweet : ",
-
-            //
+            'type' => 'retweet',
+            'user_name' => auth()->user()->name,
+            'message' => 'retweet your post.',
         ];
-
     }
 }
