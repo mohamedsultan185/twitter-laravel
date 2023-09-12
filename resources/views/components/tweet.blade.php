@@ -82,7 +82,7 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                 </svg>
-                                <span class="sr-only">Close modal</span>
+                                <span class="sr-only">@lang("Close modal")</span>
                             </button>
                         </div>
                         <!-- Modal body -->
@@ -102,7 +102,7 @@
                             class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                             <button data-modal-hide="defaultModal" type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Replay</button> </form>
+                                @lang("Replay")</button> </form>
 
                             <button data-modal-hide="defaultModal" type="button"
                                 class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
@@ -115,21 +115,21 @@
         <div
             class="flex-1 flex items-center text-white text-xs text-gray-400 hover:text-green-400 transition duration-350 ease-in-out">
 
-                <button type="submit" class="flex retweet-button" data-tweet-id="{{$tweet->id}}"
-                    style="color:{{auth()->user()->retweets->contains($tweet->id) ? 'green': 'white'}}"
-                     date-retweeted="{{(auth()->user()->retweets->contains($tweet->id))? 'true': 'false'}}">
+            <button type="submit" class="flex retweet-button" data-tweet-id="{{ $tweet->id }}"
+                style="color:{{ auth()->user()->retweets->contains($tweet->id)? 'green': 'white' }}"
+                date-retweeted="{{ auth()->user()->retweets->contains($tweet->id)? 'true': 'false' }}">
 
 
                 <svg viewBox="0 0 24 24" fill="currentColor" stroke-linecap="currentColor" class="w-5 h-5 mr-2">
-                            <g>
-                                <path
-                                    d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z">
-                                </path>
-                            </g>
-                        </svg>
-                </button>
+                    <g>
+                        <path
+                            d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z">
+                        </path>
+                    </g>
+                </svg>
+            </button>
 
-         <span class="retweet-count">{{ $tweet->retweets->count() }}</span>
+            <span class="retweet-count">{{ $tweet->retweets->count() }}</span>
         </div>
         <div
             class="flex-1 flex items-center text-white text-xs text-gray-400 hover:text-red-600 transition duration-350 ease-in-out">

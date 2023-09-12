@@ -4,7 +4,7 @@
         <div class="flex m-2.5">
             <div>
 
-                <h2 class="px-4 py-2 text-xl font-semibold text-white">Home</h2>
+                <h2 class="px-4 py-2 text-xl font-semibold text-white">@lang('HOME')</h2>
             </div>
         </div>
         <div class="flex m-2.5">
@@ -14,7 +14,12 @@
                     class=" bg-gray-800 flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
                     type="button">
 
-                    <span class="font-bold text-white">langouges</span>
+                    <span class="font-bold text-white mx-1">@lang(app()->getLocale())</span>
+                        @if (app()->getLocale()=='ar')
+                        <span class="fi fi-eg fis"></span>
+                        @else
+                        <span class="fi fi-us fis"></span>
+                        @endif
                 </button>
                 <div id="dropdown-states"
                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
@@ -26,7 +31,7 @@
                                 <a href="{{ route('changeLang', 'en') }}" class="inline-flex items-center">
                                     <span class="fi fi-us fis"></span>
 
-                                    English
+                                    en
                                 </a>
                             </button>
                         </li>
@@ -34,7 +39,7 @@
                             <button type="button"
                                 class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
                                 <a href="{{ route('changeLang', 'ar') }}" class="inline-flex items-center">
-                                    <span class="fi fi-eg fis"></span>Arabice
+                                    <span class="fi fi-eg fis"></span>ar
                                 </a>
                             </button>
                         </li>
@@ -93,7 +98,7 @@
         <div class="flex-1">
             <button
                 class="bg-blue-400 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-8 rounded-full mr-8 float-right">
-                Tweet
+                @lang('Tweet')
             </button>
             </form>
         </div>

@@ -39,7 +39,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    {{ __('private.Home') }}
+                    @lang('HOME')
                 </x-nav-item>
 
 
@@ -52,7 +52,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    {{ __('private.profile') }}
+                    @lang('Profile')
 
                 </x-nav-item>
 
@@ -67,7 +67,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    {{ __('private.followRequest') }}
+                    @lang('Follow Request')
                 </x-nav-item>
 
                 <x-nav-item :route="route('approve.followRequest')">
@@ -79,7 +79,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    {{ __('private.explore') }}
+                    @lang('Explore')
                 </x-nav-item> <!-- Button to trigger the modal -->
                 <button id="openModalButton" class="rounded-full hover:bg-blue-800 hover:text-blue-300"
                     data-modal-target="staticModal" data-modal-toggle="staticModal" type="button">
@@ -91,7 +91,7 @@
                                     d="M10 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C17 15.4 17 16 16.462 16H3.538C3 16 3 15.4 3 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 10 3.464ZM4 3 3 2M2 7H1m15-4 1-1m1 5h1M6.54 16a3.48 3.48 0 0 0 6.92 0H6.54Z">
                             </g>
                         </svg>
-                        {{ __('private.notification') }}
+                    @lang('Notification')
 
                     </a>
                 </button>
@@ -148,7 +148,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    {{ __('private.messages') }}
+                    @lang('Massages')
 
                 </x-nav-item>
 
@@ -161,7 +161,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    {{ __('private.bookMarks') }}
+                    @lang('Book Marks')
 
                 </x-nav-item>
 
@@ -174,7 +174,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    {{ __('private.lists') }}
+                    @lang('Lists')
 
                 </x-nav-item>
                 <a href="">
@@ -189,7 +189,10 @@
                                             d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
                                     </g>
                                 </svg>
-                                <button type="submit"> {{ __('private.logout') }}
+                                <button type="submit">
+                                 @lang('Logout')
+
+
                                 </button>
 
                             </x-slot>
@@ -205,14 +208,14 @@
                                 </g>
                             </svg>
                         </x-slot>
-                        {{ __('private.more') }}
+                    @lang('More')
 
                     </x-nav-item>
 
                     <a href="{{ route('tweets.index') }}">
                         <button
                             class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-                            Tweet
+                            @lang("Tweet")
                         </button></a>
 
                     <div class="flex-shrink-0 flex hover:bg-blue-00 rounded-full p-4 mt-12 mr-2">
@@ -271,7 +274,7 @@
 
                     <div class="flex">
                         <div class="flex-1 m-2">
-                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Egyption trends</h2>
+                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">@lang("Egyption trends")</h2>
                         </div>
                         <div class="flex-1 px-4 py-2 m-2">
                             <a href=""
@@ -304,7 +307,7 @@
                     <div class="flex">
                         <a href="{{ route('all.users') }}">
                             <div class="flex-1 p-4">
-                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">@lang("Show more")</h2>
                             </div>
                         </a>
                     </div>
@@ -317,7 +320,7 @@
                 <div class="max-w-sm rounded-lg overflow-hidden shadow-lg m-4 mr-20">
                     <div class="flex">
                         <div class="flex-1 m-2">
-                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Who to follow</h2>
+                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">@lang("Who to follow")</h2>
                         </div>
                     </div>
 
@@ -339,7 +342,7 @@
                     <div class="flex">
                         <a href="{{ route('all.users') }}">
                             <div class="flex-1 p-4">
-                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a href="">Show more</a>
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a href="">@lang("Show more")</a>
                                 </h2>
                             </div>
                         </a>
@@ -524,7 +527,7 @@
             };
             new Notification(title, options);
         });
-        
+
         //like
        $(document).ready(function() {
     $('.like-button').on('click', function(e) {

@@ -52,8 +52,8 @@
                     <a href="{{ route('profile.edit') }}">
                         <button
                             class="flex justify-center  max-h-max whitespace-nowrap focus:outline-none  focus:ring  rounded max-w-max border bg-transparent border-blue-500 text-blue-500 hover:border-blue-800 hover:border-blue-800 flex items-center hover:shadow-lg font-bold py-2 px-4 rounded-full mr-0 ml-auto">
-                            Edit Profile
-                        </button>
+                        @lang("Edit Profile")
+                      </button>
                     </a>
                 </div>
             </div>
@@ -123,14 +123,14 @@
                             {{ Auth::user()->tweets()->count() }}</span><span class="text-gray-600">
                             <a href="{{ route('profile.show') }}" @class([
                                 'text-blue-300' => Route::is('profile.show'),
-                            ])>Tweets</a>
+                            ])>@lang("Tweets")</a>
                         </span>
                     </div>
                     <div class="text-center pr-3"><span class="font-bold text-white">
                             {{ Auth::user()->likes()->count() }}</span><span class="text-gray-600">
                             <a href="{{ route('user.like') }}" @class([
                                 'text-blue-300' => Route::is('user.like'),
-                            ])>Likes</a>
+                            ])>@lang("Likes")</a>
                         </span></div>
 
                     <div class="text-center px-3"><span
@@ -138,7 +138,7 @@
                         </span><span class="text-gray-600">
                             <a href="{{ route('user.replays') }} " @class([
                                 'text-blue-300' => Route::is('user.replays'),
-                            ])>Replies</a>
+                            ])>@lang("Replies")</a>
                         </span>
 
                     </div>
