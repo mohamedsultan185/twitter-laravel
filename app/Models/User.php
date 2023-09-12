@@ -30,7 +30,9 @@ class User extends Authenticatable
         'password',
         'image',
         'phone',
-        'birthday'
+        'birthday',
+        'fcm_token',
+
 
     ];
     protected $dates = ['deleted_at'];
@@ -100,6 +102,8 @@ class User extends Authenticatable
     {
         return $this->image ? asset('tweet_images/' . $this->image) : asset('img/sultan.jpg');
     }
+
+
 
     public function getProfileUrlAttribute()
     {

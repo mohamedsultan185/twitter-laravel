@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Photo;
 use App\Models\Tweet;
 use App\Models\Hashtag;
+use App\Services\FCMService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -163,5 +164,19 @@ class UserController extends Controller
         $tweets = auth()->user()->tweets()->where('reply_to_tweet_id', '!=', Null)->orderBy('created_at', 'desc')->get();
 
         return view('profile', compact('users', 'tweets'));
+    }
+    public function updateToken(Request $request)
+    {
+        try {
+            $request->user()->update(['fcm_token' => $request->token]);
+            return response()->json([
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            report($e);
+            return response()->json([
+                'success' => false
+            ], 500);
+        }
     }
 }
