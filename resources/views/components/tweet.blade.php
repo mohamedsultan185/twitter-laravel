@@ -1,5 +1,6 @@
 @props(['tweet'])
 <div class="flex flex-shrink-0 p-4 pb-0">
+
     <a href="#" class="flex-shrink-0 group block">
         <div class="flex items-center">
             <div>
@@ -37,16 +38,48 @@
     </p>
 
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="gap-4 grid h-100 w-100">
         @foreach ($tweet->photos as $photo)
-            <div>
-                <img class="inline-block h-10 w-10 rounded-full" src="{{ $tweet->user->profile_url }}"
+            <div class="grid grid-cols-2 gap-4 h-100 w-100">
+                <img class="inline-block " src="{{ asset('storage/tweet_images/' . $photo->image_path) }}"
                     alt="{{ $tweet->user->name }}">
             </div>
         @endforeach
+        <br>
+        @if ($tweet->quote_to_tweet_id != null)
 
+            <div class="mb-6 ">
+                <div
+                    class="appearance-none bg-black border focus:outline-none focus:shadow-outline leading-tight px-2 py-1 rounded shadow text-gray-700 text-white w-full">
+                    <div class="flex items-center">
+                        <img src="{{ $tweet->user->profile_url }}" alt="User Image" class="h-12 w-12 rounded-full" />
+                        <span class="px-3 py-2">{{ $tweet->user->name }}</span>
+                    </div>
+                    <div
+                        class="appearance-none bg-black focus:outline-none focus:shadow-outline leading-tight px-3 py-2 rounded shadow text-gray-700 text-white pl-16 w-full">
+                        {!! preg_replace('/#(\w+)/', '', $tweet->quotedTweet->content) !!}
+                        @foreach ($tweet->hashtags as $hashtag)
+                            <a class="text-blue-300"
+                                href="{{ route('hashtags.show', ['hashtag' => $hashtag->name]) }}">
+                                #{{ $hashtag->quotedTweet->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                    <div class="gap-4 grid h-100 w-100">
+                        @foreach ($tweet->quotedTweet->photos as $photo)
+                            <div class="gap-4 grid grid-cols-2 h-100 m-2 w-100">
+                                <img class="inline-block "
+                                    src="{{ asset('storage/tweet_images/' . $photo->image_path) }}"
+                                    alt="{{ $tweet->user->name }}">
+                            </div>
+                        @endforeach
+
+                    </div>
+
+                </div>
+            </div>
+        @endif
     </div>
-
 
     <div class="flex items-center py-4">
         <div
@@ -82,7 +115,7 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                 </svg>
-                                <span class="sr-only">@lang("Close modal")</span>
+                                <span class="sr-only">@lang('Close modal')</span>
                             </button>
                         </div>
                         <!-- Modal body -->
@@ -102,7 +135,7 @@
                             class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                             <button data-modal-hide="defaultModal" type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                @lang("Replay")</button> </form>
+                                @lang('Replay')</button> </form>
 
                             <button data-modal-hide="defaultModal" type="button"
                                 class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
@@ -112,8 +145,7 @@
             </div>
 
         </div>
-        <div
-            class="flex-1 flex items-center text-white text-xs text-gray-400 hover:text-green-400 transition duration-350 ease-in-out">
+        {{-- <div class="flex-1 flex items-center text-white text-xs text-gray-400 hover:text-green-400 transition duration-350 ease-in-out">
 
             <button type="submit" class="flex retweet-button" data-tweet-id="{{ $tweet->id }}"
                 style="color:{{ auth()->user()->retweets->contains($tweet->id)? 'green': 'white' }}"
@@ -130,7 +162,97 @@
             </button>
 
             <span class="retweet-count">{{ $tweet->retweets->count() }}</span>
+        </div> --}}
+
+        <div class="flex-1 flex items-center text-white text-xs  transition duration-350 ease-in-out">
+
+            <button data-modal-target="#popup-modal{{$tweet->id}}" data-modal-toggle="popup-modal" data-tweet-id="{{ $tweet->id }}"
+                style="color:{{ auth()->user()->retweets->contains($tweet->id)? 'green': 'white' }}"
+                date-retweeted="{{ auth()->user()->retweets->contains($tweet->id)? 'true': 'false' }}"
+                class=" retweet-button block text-white  flex focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="submit">
+                {{-- @dump($tweet->id) --}}
+
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke-linecap="currentColor" class="w-5 h-5 mr-2">
+                    <g>
+                        <path
+                            d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z">
+                        </path>
+                    </g>
+                </svg>
+                <span class="retweet-count">{{ $tweet->retweets->count() }}</span>
+
+            </button>
+            {{-- @dump($tweet->id) --}}
+
+            <div id="popup-modal{{$tweet->id}}" tabindex="-1"
+                class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="flex items-center justify-center max-h-full md:h-96 relative w-full">
+                    <div class="relative bg-black rounded-lg shadow dark:bg-gray-700">
+                        <button type="button"
+                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            data-modal-hide="popup-modal">
+
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                        <div class="p-6 text-center">
+
+
+                            {{-- retweet --}}
+
+                            <button data-modal-hide="#popup-modal{{$tweet->id}}" data-tweet-id="{{ $tweet->id }}"
+                style="color:{{ auth()->user()->retweets->contains($tweet->id)? 'green': 'white' }}"
+                date-retweeted="{{ auth()->user()->retweets->contains($tweet->id)? 'true': 'false' }}"type="submit"
+                                class=" retweet-button text-white inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                <svg viewBox="0 0 24 24" fill="currentColor" stroke-linecap="currentColor"
+                                    class="w-5 h-5 mr-2">
+                                    <g>
+                                        <path
+                                            d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z">
+                                        </path>
+                                    </g>
+                                </svg>
+                                <span class="text-2xl ">retweet</span>
+                            </button>
+
+                            {{-- Quote --}}
+                            <a href="{{ route('tweets.toggleQuote', $tweet->id) }}"data-tweet-id="{{ $tweet->id }}"
+                style="color:{{ auth()->user()->retweets->contains($tweet->id)? 'green': 'white' }}"
+                date-retweeted="{{ auth()->user()->retweets->contains($tweet->id)? 'true': 'false' }}">
+                                <div data-modal-hide="popup-modal" type="button"
+                                class="text-white focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                <svg viewBox="0 0 24 24" fill="currentColor" stroke-linecap="currentColor"
+                                        class="w-5 h-5 mr-2">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path opacity="0.15" d="M4 20H8L18 10L14 6L4 16V20Z" fill="#000000">
+                                            </path>
+                                            <path d="M12 20H20.5M18 10L21 7L17 3L14 6M18 10L8 20H4V16L14 6M18 10L14 6"
+                                            stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg>
+
+                                    {{-- @dump($tweet->id) --}}
+                                    <span class="text-2xl ">Quote</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
+
+
+        {{-- <a href="{{route('tweets.toggleQuote')}}">sdfagasdgadf
+</a> --}}
+
         <div
             class="flex-1 flex items-center text-white text-xs text-gray-400 hover:text-red-600 transition duration-350 ease-in-out">
             <button class="flex like-button" data-tweet-id="{{ $tweet->id }}"
@@ -166,6 +288,5 @@
             </svg>
         </div>
     </div>
-
+    <hr class="border-gray-600">
 </div>
-<hr class="border-gray-800">

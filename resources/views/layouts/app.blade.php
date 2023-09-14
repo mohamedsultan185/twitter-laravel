@@ -592,7 +592,24 @@
 });
 
     </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function openModal(modalId) {
+            $(modalId).removeClass('hidden');
+        }
 
+        $('[data-modal-toggle]').on('click', function () {
+            var modalTarget = $(this).data('modal-target');
+            openModal(modalTarget);
+        });
+
+        $('[data-modal-hide]').on('click', function () {
+            var modalTarget = $(this).data('modal-hide');
+            $(modalTarget).addClass('hidden');
+        });
+    });
+</script>
 </body>
 
 </html>

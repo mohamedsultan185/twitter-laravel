@@ -64,6 +64,7 @@ class TweetController extends Controller
             'content' => $request->input('content'),
         ];
         $tweet = Tweet::create($tweetData);
+
         $followers = $tweet->user->followers;
         foreach ($followers as $follower) {
             $notificationData = [
@@ -156,19 +157,19 @@ class TweetController extends Controller
         $postOwner = $tweet->user; // The user who owns the post
         $user->likedTweets()->toggle($tweet->id);
         Notification::send($postOwner, new LikeNotification($tweet));
-        if (auth()->user()->likedTweets->contains($tweet->id)){
-        FCMService::send(
-            $postOwner->fcm_token,
-            [
-                "title" => "$user->name liked your tweet",
-            ]
-        );}
+        if (auth()->user()->likedTweets->contains($tweet->id)) {
+            FCMService::send(
+                $postOwner->fcm_token,
+                [
+                    "title" => "$user->name liked your tweet",
+                ]
+            );
+        }
 
         $likeCount = $tweet->likes->count();
 
 
         return response()->json(['likeCount' => $likeCount]);
-
     }
 
     public function toggleRetweet(Tweet $tweet)
@@ -178,16 +179,60 @@ class TweetController extends Controller
         $postOwner = $tweet->user;
 
         Notification::send($postOwner, new RetweetNotification($tweet));
-        if (auth()->user()->retweets->contains($tweet->id)){
-        FCMService::send(
-            $postOwner->fcm_token,
-            [
-                "title" => "$user->name retweet your tweet",
-            ]
-        );}
+        if (auth()->user()->retweets->contains($tweet->id)) {
+            FCMService::send(
+                $postOwner->fcm_token,
+                [
+                    "title" => "$user->name retweet your tweet",
+                ]
+            );
+        }
         $retweetCount = $tweet->retweets->count();
         return response()->json(['retweetCount' => $retweetCount]);
     }
+    // Quote toggle
+    public function toggleQuote($id)
+    {
+        $tweet = Tweet::findOrFail($id);
+        $user = $tweet->user();
+
+        return view('Quote', compact('tweet', 'user'));
+    }
+
+    public function quote(Tweet $tweet, Request $request)
+{
+    $validatedData = $request->validate([
+        'quote_content' => 'required|max:255',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ], [
+        'images.*.max' => 'Please upload images with a maximum size of 2MB.',
+    ]);
+
+    $newQuote = new Tweet();
+    $newQuote->content = $validatedData['quote_content'];
+    $newQuote->user_id = auth()->user()->id;
+    $newQuote->quote_to_tweet_id = $tweet->id;
+    $newQuote->save();
+
+    if ($request->hasFile('images')) {
+        $images = $request->file('images');
+        if (count($images) > 4) {
+            return redirect()->back()->withErrors(['images' => 'Please upload a maximum of 4 images.']);
+        }
+        foreach ($images as $image) {
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('storage/tweet_images'), $imageName);
+            $newQuote->photos()->create([
+                'image_path' => $imageName,
+            ]);
+        }
+    }
+
+return redirect()->route('tweets.index');
+}
+
+
+
     public function reply(Tweet $tweet, Request $request)
     {
         $validatedData = $request->validate([

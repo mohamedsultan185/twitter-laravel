@@ -10,7 +10,7 @@ class Tweet extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['content', 'image', 'retweet_id', 'reply_to_tweet_id', 'user_id'];
+    protected $fillable = ['content', 'image', 'retweet_id', 'reply_to_tweet_id', 'user_id' , 'quote_to_tweet_id'];
     protected $dates = ['deleted_at'];
 
     public function user()
@@ -23,6 +23,7 @@ class Tweet extends Model
     {
         return $this->hasMany(Tweet::class, 'reply_to_tweet_id');
     }
+
     public function likes()
     {
         // dd($this);
@@ -48,7 +49,18 @@ class Tweet extends Model
     function hashtags() {
         return $this->belongsToMany(Hashtag::class);
     }
-    
 
+    // function quotes() {
+    //     return $this->hasMany(Quote::class);
+
+    // }
+    public function quotes()
+    {
+        return $this->hasMany(Tweet::class, 'quote_to_tweet_id');
+    }
+    public function quotedTweet()
+    {
+        return $this->belongsTo(Tweet::class, 'quote_to_tweet_id', 'id');
+    }
 
 }

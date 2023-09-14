@@ -49,6 +49,12 @@ Route::post('/tweets/{tweet}/like', [TweetController::class, 'toggleLike'])->nam
 Route::post('/tweets/{tweet}/retweet', [TweetController::class, 'toggleRetweet'])->name('tweets.toggleRetweet')->middleware('auth');
 Route::post('/tweets/{tweet}/reply', [TweetController::class, 'reply'])->name('tweets.reply')->middleware('auth');
 //  Route::post('/tweets/{tweet}/reply', [TweetController::class, 'reply'])->name('tweets.reply')->middleware('auth');
+//Quote
+Route::get('Quote/{tweet}', [TweetController::class, 'toggleQuote'])->name('tweets.toggleQuote')->middleware('auth');
+Route::post('quote/{tweet}', [TweetController::class, 'quote'])->name('tweets.quote')->middleware('auth');
+
+
+
 
 // allUsers
 Route::get('allUsers', [UserController::class, 'allUsers'])->name('all.users')->middleware('auth');
