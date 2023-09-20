@@ -5,13 +5,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite('resources/css/app.css')
 
+    @vite('resources/css/app.css')
+    @vite('/node_modules/flag-icons/css/flag-icons.min.css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
 </head>
 
 <body>
+
     <div class="bg-gray-800 ">
         <hr class="border-gray-600">
+
 
         <div class="flex">
 
@@ -35,7 +39,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    Home
+                    @lang('HOME')
                 </x-nav-item>
 
 
@@ -48,7 +52,8 @@
                             </g>
                         </svg>
                     </x-slot>
-                    Profile
+                    @lang('Profile')
+
                 </x-nav-item>
 
 
@@ -62,7 +67,7 @@
                             </g>
                         </svg>
                     </x-slot>
-                    Follow Requsets
+                    @lang('Follow Request')
                 </x-nav-item>
 
                 <x-nav-item :route="route('approve.followRequest')">
@@ -74,9 +79,8 @@
                             </g>
                         </svg>
                     </x-slot>
-                    Explore
-                </x-nav-item>
-                <!-- Button to trigger the modal -->
+                    @lang('Explore')
+                </x-nav-item> <!-- Button to trigger the modal -->
                 <button id="openModalButton" class="rounded-full hover:bg-blue-800 hover:text-blue-300"
                     data-modal-target="staticModal" data-modal-toggle="staticModal" type="button">
                     <a
@@ -87,7 +91,8 @@
                                     d="M10 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C17 15.4 17 16 16.462 16H3.538C3 16 3 15.4 3 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 10 3.464ZM4 3 3 2M2 7H1m15-4 1-1m1 5h1M6.54 16a3.48 3.48 0 0 0 6.92 0H6.54Z">
                             </g>
                         </svg>
-                        Notifications
+                    @lang('Notification')
+
                     </a>
                 </button>
 
@@ -111,7 +116,7 @@
                                 </button>
                             </div>
                             <!-- Modal body -->
-                            <div class="p-6 space-y-6">
+                            <div class="bg-[#050708] p-6 space-y-6">
                                 <div id="notifications-content">
                                     <!-- Notification content will be inserted here using JavaScript -->
                                 </div>
@@ -143,7 +148,8 @@
                             </g>
                         </svg>
                     </x-slot>
-                    Messages
+                    @lang('Massages')
+
                 </x-nav-item>
 
                 <x-nav-item :route="route('approve.followRequest')">
@@ -155,7 +161,8 @@
                             </g>
                         </svg>
                     </x-slot>
-                    Bookmarks
+                    @lang('Book Marks')
+
                 </x-nav-item>
 
                 <x-nav-item :route="route('approve.followRequest')">
@@ -167,7 +174,8 @@
                             </g>
                         </svg>
                     </x-slot>
-                    Lists
+                    @lang('Lists')
+
                 </x-nav-item>
                 <a href="">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -181,7 +189,11 @@
                                             d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
                                     </g>
                                 </svg>
-                                <button type="submit">Logout</button>
+                                <button type="submit">
+                                 @lang('Logout')
+
+
+                                </button>
 
                             </x-slot>
                         </x-nav-item>
@@ -196,13 +208,14 @@
                                 </g>
                             </svg>
                         </x-slot>
-                        More
+                    @lang('More')
+
                     </x-nav-item>
 
                     <a href="{{ route('tweets.index') }}">
                         <button
                             class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-                            Tweet
+                            @lang("Tweet")
                         </button></a>
 
                     <div class="flex-shrink-0 flex hover:bg-blue-00 rounded-full p-4 mt-12 mr-2">
@@ -261,7 +274,7 @@
 
                     <div class="flex">
                         <div class="flex-1 m-2">
-                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Egyption trends</h2>
+                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">@lang("Egyption trends")</h2>
                         </div>
                         <div class="flex-1 px-4 py-2 m-2">
                             <a href=""
@@ -294,7 +307,7 @@
                     <div class="flex">
                         <a href="{{ route('all.users') }}">
                             <div class="flex-1 p-4">
-                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">Show more</h2>
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">@lang("Show more")</h2>
                             </div>
                         </a>
                     </div>
@@ -307,7 +320,7 @@
                 <div class="max-w-sm rounded-lg overflow-hidden shadow-lg m-4 mr-20">
                     <div class="flex">
                         <div class="flex-1 m-2">
-                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">Who to follow</h2>
+                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">@lang("Who to follow")</h2>
                         </div>
                     </div>
 
@@ -329,7 +342,7 @@
                     <div class="flex">
                         <a href="{{ route('all.users') }}">
                             <div class="flex-1 p-4">
-                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a href="">Show more</a>
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a href="">@lang("Show more")</a>
                                 </h2>
                             </div>
                         </a>
@@ -352,104 +365,251 @@
 
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 
-</body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+    <script>
+        $(document).ready(function() {
 
-<script>
-    $(document).ready(function() {
+            $('#openModalButton').click(function() {
+                console.log('Button clicked.');
 
-        $('#openModalButton').click(function() {
-            console.log('Button clicked.');
+                $.ajax({
+                    url: '{{ route('notifications.index') }}',
+                    type: 'GET',
+                    success: function(response) {
+                        console.log(response);
+                        var notifications = response.notifications;
+                        var notificationsContent = $('#notifications-content');
 
-            $.ajax({
-                url: '{{ route('notifications.index') }}',
-                type: 'GET',
-                success: function(response) {
-                    console.log(response);
-                    var notifications = response.notifications;
-                    var notificationsContent = $('#notifications-content');
+                        notificationsContent.empty();
 
-                    notificationsContent.empty();
+                        if (notifications.length === 0) {
+                            console.log(
+                                'No notifications found.'
+                            ); // Add a log statement for no notifications.
+                            notificationsContent.html('<p>No notifications</p>');
+                        } else {
+                            console.log(
+                                notifications
+                            ); // Add a log statement for displaying notifications.
+                            $.each(notifications, function(index, notifications) {
+                                if (notifications.data.type == 'tweet') {
+                                    var notificationHtml =
+                                        '<div class="notification">' +
+                                        '<p> ' + notifications.data.message +
+                                        notifications.data.tweet_content + '</p>' +
+                                        '<br>'
 
-                    if (notifications.length === 0) {
-                        console.log(
-                            'No notifications found.'
-                        ); // Add a log statement for no notifications.
-                        notificationsContent.html('<p>No notifications</p>');
-                    } else {
-                        console.log(
-                        notifications); // Add a log statement for displaying notifications.
-                        $.each(notifications, function(index, notifications) {
-                            if (notifications.data.type == 'tweet') {
-                                var notificationHtml =
-                                    '<div class="notification">' +
-                                    '<p> ' + notifications.data.message +
-                                    notifications.data.tweet_content + '</p>' +
-                                    '<br>'
+                                    '</div>';
+                                    notificationsContent.append(notificationHtml);
+                                }
+                                if (notifications.data.type == 'like') {
+                                    var notificationHtml =
+                                        '<div class="notification">' +
+                                        '<p> ' + notifications.data.user_name + ' ' +
+                                        notifications.data.message + '</p>' +
+                                        '<br>'
 
-                                '</div>';
-                                notificationsContent.append(notificationHtml);
-                            }
-                            if (notifications.data.type == 'like') {
-                                var notificationHtml =
-                                    '<div class="notification">' +
-                                    '<p> ' + notifications.data.user_name + ' ' +
-                                    notifications.data.message + '</p>' +
-                                    '<br>'
+                                    '</div>';
+                                    notificationsContent.append(notificationHtml);
+                                }
+                                if (notifications.data.type == 'retweet') {
+                                    var notificationHtml =
+                                        '<div class="notification">' +
+                                        '<p> ' + notifications.data.user_name + '' +
+                                        notifications.data.message + '</p>' +
+                                        '<br>'
 
-                                '</div>';
-                                notificationsContent.append(notificationHtml);
-                            }
-                            if (notifications.data.type == 'retweet') {
-                                var notificationHtml =
-                                    '<div class="notification">' +
-                                    '<p> ' + notifications.data.user_name + '' +
-                                    notifications.data.message + '</p>' +
-                                    '<br>'
+                                    '</div>';
+                                    notificationsContent.append(notificationHtml);
+                                }
+                            });
+                        }
 
-                                '</div>';
-                                notificationsContent.append(notificationHtml);
-                            }
-                        });
+                        $('#staticModal').modal('show');
+                    },
+                    error: function(error) {
+                        console.error(error);
                     }
-
-                    $('#staticModal').modal('show');
-                },
-                error: function(error) {
-                    console.error(error);
-                }
+                });
             });
+        });
+
+        function openModal() {
+            const modal = document.getElementById("defaultModal");
+            modal.classList.remove("hidden");
+            modal.setAttribute("aria-hidden", "false");
+            modal.style.overflowY = "auto";
+            document.body.classList.add("modal-open");
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("defaultModal");
+            modal.classList.add("hidden");
+            modal.setAttribute("aria-hidden", "true");
+            modal.style.overflowY = "hidden";
+            document.body.classList.remove("modal-open");
+        }
+
+        const openButton = document.querySelector("[data-modal-toggle='defaultModal']");
+        openButton.addEventListener("click", openModal);
+
+        const closeButton = document.querySelector("[data-modal-hide='defaultModal']");
+        closeButton.addEventListener("click", closeModal);
+
+
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCA95ibEvzR3H1I2_Kob3eyAR9-YTirvaA",
+            authDomain: "twitter-ff353.firebaseapp.com",
+            projectId: "twitter-ff353",
+            storageBucket: "twitter-ff353.appspot.com",
+            messagingSenderId: "773375455379",
+            appId: "1:773375455379:web:a37c083c1ff35e17ac9d66",
+            measurementId: "G-TR36B87D1Y"
+
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        const messaging = firebase.messaging();
+
+        function initFirebaseMessagingRegistration() {
+            messaging.requestPermission().then(function() {
+                return messaging.getToken()
+            }).then(function(token) {
+
+                // TODO TO AJAX
+
+                axios.post("{{ route('fcmToken') }}", {
+                    _method: "POST",
+                    token
+                }).then(({
+                    data
+                }) => {
+                    console.log(data)
+                }).catch(({
+                    response: {
+                        data
+                    }
+                }) => {
+                    console.error(data)
+                })
+
+            }).catch(function(err) {
+                console.log(`Token Error :: ${err}`);
+                console.log('sdfsdfs');
+            });
+        }
+
+        initFirebaseMessagingRegistration();
+
+        messaging.onMessage(function(payload) {
+            new Notification(payload.notification.title, {
+
+                body: payload.notification.body,
+                icon: payload.notification.icon,
+            })
+        });
+        messaging.onMessage(function(payload) {
+            const title = payload.notification.title;
+            const options = {
+                body: payload.notification.body,
+                icon: payload.notification.icon,
+            };
+            new Notification(title, options);
+        });
+
+        //like
+       $(document).ready(function() {
+    $('.like-button').on('click', function(e) {
+        e.preventDefault();
+        const tweetId = $(this).data('tweet-id');
+        const isLiked = $(this).data('liked') == true;
+        const button = $(this);
+
+        $.ajax({
+            url: `/tweets/${tweetId}/like`,
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+            },
+            success: function(response) {
+                if (isLiked) {
+                    button.css('color', 'white');
+                } else {
+                    button.css('color', 'red');
+                }
+                button.parent().find('.like-count').text(response.likeCount);
+
+                button.data('liked', !isLiked);
+            },
+            error: function(error) {
+                console.error(error);
+            },
+        });
+    });
+});
+
+//retweet
+ $(document).ready(function() {
+    $('.retweet-button').on('click', function(e) {
+        e.preventDefault();
+        const tweetId = $(this).data('tweet-id');
+        const isretweeted= $(this).data('retweeted') == true;
+        const button = $(this);
+
+        $.ajax({
+            url: `/tweets/${tweetId}/retweet`,
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+            },
+            success: function(response) {
+            console.log(isretweeted);
+                if (isretweeted) {
+                    button.css('color', 'white');
+                } else {
+                    button.css('color', 'green');
+                }
+                button.parent().find('.retweet-count').text(response.retweetCount);
+
+                button.data('retweet', !isretweeted);
+            },
+            error: function(error) {
+                console.error(error);
+            },
+        });
+    });
+});
+
+    </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function openModal(modalId) {
+            $(modalId).removeClass('hidden');
+        }
+
+        $('[data-modal-toggle]').on('click', function () {
+            var modalTarget = $(this).data('modal-target');
+            openModal(modalTarget);
+        });
+
+        $('[data-modal-hide]').on('click', function () {
+            var modalTarget = $(this).data('modal-hide');
+            $(modalTarget).addClass('hidden');
         });
     });
 </script>
-
-<script>
-    function openModal() {
-        const modal = document.getElementById("defaultModal");
-        modal.classList.remove("hidden");
-        modal.setAttribute("aria-hidden", "false");
-        modal.style.overflowY = "auto";
-        document.body.classList.add("modal-open");
-    }
-
-    function closeModal() {
-        const modal = document.getElementById("defaultModal");
-        modal.classList.add("hidden");
-        modal.setAttribute("aria-hidden", "true");
-        modal.style.overflowY = "hidden";
-        document.body.classList.remove("modal-open");
-    }
-
-    const openButton = document.querySelector("[data-modal-toggle='defaultModal']");
-    openButton.addEventListener("click", openModal);
-
-    const closeButton = document.querySelector("[data-modal-hide='defaultModal']");
-    closeButton.addEventListener("click", closeModal);
-</script>
-
-
-
+</body>
 
 </html>

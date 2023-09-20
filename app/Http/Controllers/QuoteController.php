@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Retweet;
+use App\Models\Quote;
 use Illuminate\Http\Request;
 
-class RetweetController extends Controller
+class QuoteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class RetweetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Retweet  $retweet
+     * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function show(Retweet $retweet)
+    public function show(Quote $quote)
     {
         //
     }
@@ -52,10 +52,10 @@ class RetweetController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Retweet  $retweet
+     * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function edit(Retweet $retweet)
+    public function edit(Quote $quote)
     {
         //
     }
@@ -64,10 +64,10 @@ class RetweetController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Retweet  $retweet
+     * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Retweet $retweet)
+    public function update(Request $request, Quote $quote)
     {
         //
     }
@@ -75,13 +75,11 @@ class RetweetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Retweet  $retweet
+     * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Retweet $retweet)
+    public function destroy(Quote $quote)
     {
         //
     }
- 
-
 }

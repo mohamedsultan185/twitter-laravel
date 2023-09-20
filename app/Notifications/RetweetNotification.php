@@ -19,7 +19,7 @@ class RetweetNotification extends Notification
      */
     public function __construct($tweet)
     {
-        return ['mail', 'database'];
+        $this->tweet = $tweet;
 
     }
 
@@ -31,7 +31,7 @@ class RetweetNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['database'];
     }
 
     /**

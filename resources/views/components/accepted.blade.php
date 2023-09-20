@@ -20,7 +20,7 @@
                         @csrf
 
                     <button class="bg-transparent hover:bg-red-500 text-white font-semibold hover:text-white py-2 px-4 border border-white hover:border-transparent rounded-full"
-                     type="submit"> accept</button>
+                     type="submit"> @lang("accept")</button>
                 </form>
             </a>
         </div>

@@ -19,7 +19,7 @@
                         #{{ $hashtag->name }}</a>
                 </h2>
                 <p class="px-4 ml-2 mb-3 w-48 text-xs text-gray-400">({{ $hashtag->tweets_count }})
-                    Tweets</p>
+                    @lang("Tweets")</p>
 
             </div>
 
