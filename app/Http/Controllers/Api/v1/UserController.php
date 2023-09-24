@@ -8,6 +8,16 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    public function store(Request $request)
+    {
+        try {
+            $user = User::create($request->all());
+            return response()->json($user, 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to create user'], 500);
+        }
+    }
+
 
     public function update(Request $request, $id)
     {

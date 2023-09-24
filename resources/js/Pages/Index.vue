@@ -6,7 +6,11 @@
             :settings="hotSettings"
             :id="id"
             :class="className"
+            ref="hotTable"
         ></hot-table>
+
+        <!-- New User button -->
+        <button @click="addNewUser" class="btn btn-primary">New User</button>
     </div>
 </template>
 
@@ -24,43 +28,36 @@ export default defineComponent({
         users: Array,
     },
     data() {
-        const readOnlyUsers = this.users.map((user) => {
-            return {
-                ...user,
-                "Deleted At": user["Deleted At"],
-                "Created At": user["Created At"],
-                "Updated At": user["Updated At"],
-            };
-        });
-        return {
-            userData: [],
-            columnHeaders: [
-                "ID",
-                "Name",
-                "Username",
-                "Email",
-                "Email Verified At",
-                "Image",
-                "Phone",
-                "Birthday",
-                "Deleted At",
-                "Created At",
-                "Updated At",
-                "Remember Token",
-            ],
-            hotSettings: {
-                colWidths: [
-                    50, 100, 120, 150, 150, 100, 100, 120, 100, 120, 150, 120,
-                    120,
-                ],
-                rowHeights: 30,
-                stretchH: "all",
-                className: "htCenter htMiddle",
-                licenseKey: "non-commercial-and-evaluation",
-                contextMenu: ["remove_row"],
-                afterChange: this.handleAfterChange,
-            },
+        const columnHeaders = [
+            "ID",
+            "Name",
+            "Username",
+            "Email",
+            "Email Verified At",
+            "Image",
+            "Phone",
+            "Birthday",
+            "Deleted At",
+            "Created At",
+            "Updated At",
+            "Remember Token",
+        ];
 
+        const hotSettings = {
+            colWidths: [
+                50, 100, 120, 150, 150, 100, 100, 120, 100, 120, 150, 120, 120,
+            ],
+            rowHeights: 30,
+            stretchH: "all",
+            className: "htCenter htMiddle",
+            licenseKey: "non-commercial-and-evaluation",
+            contextMenu: ["remove_row"],
+            afterChange: this.handleAfterChange,
+        };
+
+        return {
+            columnHeaders,
+            hotSettings,
             id: "my-custom-id",
             className: "my-custom-classname excel-like-table",
         };
@@ -68,34 +65,77 @@ export default defineComponent({
     components: {
         HotTable,
     },
-    watch: {},
     methods: {
         async handleAfterChange(changes) {
             if (changes === null) {
                 console.error("No changes detected.");
                 return;
             }
-
             for (const [row, prop, oldValue, newValue] of changes) {
                 console.log(this.users[row]);
                 try {
-                    const userId = this.users[row].id;
+                    const userId = this.users[row].ID; // Use "ID" property for user ID
                     const response = await axios.put(
                         `api/v1/users/${userId}/update`,
                         {
-                            name: this.users[row].name,
-                            username: this.users[row].username,
-                            email: this.users[row].email,
+                            name: this.users[row].Name,
+                            username: this.users[row].Username,
+                            email: this.users[row].Email,
                             email_verified_at:
-                                this.users[row].email_verified_at,
-                            image: this.users[row].image,
-                            phone: this.users[row].phone,
-                            birthday: this.users[row].birthday,
+                                this.users[row]["Email Verified At"],
+                            image: this.users[row].Image,
+                            phone: this.users[row].Phone,
+                            birthday: this.users[row].Birthday,
                         }
                     );
                 } catch (error) {
                     console.error("Error:", error.message);
                 }
+            }
+        },
+
+        async addNewUser() {
+            const newUser = {
+                Name: "name",
+                Username: "username",
+                Email: "email",
+                "Email Verified At": null,
+                Image: "image",
+                Phone: "phone",
+                Birthday: "",
+                "Deleted At": null,
+                "Created At": null,
+                "Updated At": null,
+                "Remember Token": "",
+            };
+
+            console.log(newUser);
+
+            this.users.push(newUser);
+
+            this.scrollToLastRow();
+            try {
+                const response = await axios.post(
+                    "api/v1/users/store",
+                    newUser
+                );
+
+                console.log("User inserted successfully:", response.data);
+            } catch (error) {
+                console.error("Error inserting user:", error.message);
+            }
+        },
+
+        generateUniqueId() {
+            return Date.now();
+        },
+
+        scrollToLastRow() {
+            const hotInstance = this.$refs.hotTable.hotInstance;
+            const lastRowIndex = this.users.length - 1;
+
+            if (hotInstance) {
+                hotInstance.scrollViewportTo(lastRowIndex, 0);
             }
         },
     },
