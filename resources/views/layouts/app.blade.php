@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     @vite('resources/css/app.css')
     @vite('/node_modules/flag-icons/css/flag-icons.min.css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
@@ -91,7 +90,7 @@
                                     d="M10 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C17 15.4 17 16 16.462 16H3.538C3 16 3 15.4 3 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 10 3.464ZM4 3 3 2M2 7H1m15-4 1-1m1 5h1M6.54 16a3.48 3.48 0 0 0 6.92 0H6.54Z">
                             </g>
                         </svg>
-                    @lang('Notification')
+                        @lang('Notification')
 
                     </a>
                 </button>
@@ -190,7 +189,7 @@
                                     </g>
                                 </svg>
                                 <button type="submit">
-                                 @lang('Logout')
+                                    @lang('Logout')
 
 
                                 </button>
@@ -208,14 +207,14 @@
                                 </g>
                             </svg>
                         </x-slot>
-                    @lang('More')
+                        @lang('More')
 
                     </x-nav-item>
 
                     <a href="{{ route('tweets.index') }}">
                         <button
                             class="bg-blue-400 w-48 mt-5 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-                            @lang("Tweet")
+                            @lang('Tweet')
                         </button></a>
 
                     <div class="flex-shrink-0 flex hover:bg-blue-00 rounded-full p-4 mt-12 mr-2">
@@ -245,6 +244,7 @@
 
             </div>
             <div class="w-3/5 border border-gray-600 h-auto  border-t-0">
+
                 @yield('content')
             </div>
             <div class="w-2/5 h-12">
@@ -274,7 +274,7 @@
 
                     <div class="flex">
                         <div class="flex-1 m-2">
-                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">@lang("Egyption trends")</h2>
+                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">@lang('Egyption trends')</h2>
                         </div>
                         <div class="flex-1 px-4 py-2 m-2">
                             <a href=""
@@ -307,7 +307,7 @@
                     <div class="flex">
                         <a href="{{ route('all.users') }}">
                             <div class="flex-1 p-4">
-                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">@lang("Show more")</h2>
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400">@lang('Show more')</h2>
                             </div>
                         </a>
                     </div>
@@ -320,7 +320,7 @@
                 <div class="max-w-sm rounded-lg overflow-hidden shadow-lg m-4 mr-20">
                     <div class="flex">
                         <div class="flex-1 m-2">
-                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">@lang("Who to follow")</h2>
+                            <h2 class="px-4 py-2 text-xl w-48 font-semibold text-white">@lang('Who to follow')</h2>
                         </div>
                     </div>
 
@@ -342,7 +342,8 @@
                     <div class="flex">
                         <a href="{{ route('all.users') }}">
                             <div class="flex-1 p-4">
-                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a href="">@lang("Show more")</a>
+                                <h2 class="px-4 ml-2 w-48 font-bold text-blue-400"><a
+                                        href="">@lang('Show more')</a>
                                 </h2>
                             </div>
                         </a>
@@ -364,7 +365,7 @@
 
 
     </div>
-
+    @stack('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
@@ -459,10 +460,13 @@
         }
 
         const openButton = document.querySelector("[data-modal-toggle='defaultModal']");
-        openButton.addEventListener("click", openModal);
+        if (openButton) {
 
-        const closeButton = document.querySelector("[data-modal-hide='defaultModal']");
-        closeButton.addEventListener("click", closeModal);
+            openButton.addEventListener("click", openModal);
+
+            const closeButton = document.querySelector("[data-modal-hide='defaultModal']");
+            closeButton.addEventListener("click", closeModal);
+        }
 
 
         // Your web app's Firebase configuration
@@ -529,87 +533,86 @@
         });
 
         //like
-       $(document).ready(function() {
-    $('.like-button').on('click', function(e) {
-        e.preventDefault();
-        const tweetId = $(this).data('tweet-id');
-        const isLiked = $(this).data('liked') == true;
-        const button = $(this);
+        $(document).ready(function() {
+            $('.like-button').on('click', function(e) {
+                e.preventDefault();
+                const tweetId = $(this).data('tweet-id');
+                const isLiked = $(this).data('liked') == true;
+                const button = $(this);
 
-        $.ajax({
-            url: `/tweets/${tweetId}/like`,
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-            },
-            success: function(response) {
-                if (isLiked) {
-                    button.css('color', 'white');
-                } else {
-                    button.css('color', 'red');
-                }
-                button.parent().find('.like-count').text(response.likeCount);
+                $.ajax({
+                    url: `/tweets/${tweetId}/like`,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function(response) {
+                        if (isLiked) {
+                            button.css('color', 'white');
+                        } else {
+                            button.css('color', 'red');
+                        }
+                        button.parent().find('.like-count').text(response.likeCount);
 
-                button.data('liked', !isLiked);
-            },
-            error: function(error) {
-                console.error(error);
-            },
+                        button.data('liked', !isLiked);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
+            });
         });
-    });
-});
 
-//retweet
- $(document).ready(function() {
-    $('.retweet-button').on('click', function(e) {
-        e.preventDefault();
-        const tweetId = $(this).data('tweet-id');
-        const isretweeted= $(this).data('retweeted') == true;
-        const button = $(this);
+        //retweet
+        $(document).ready(function() {
+            $('.retweet-button').on('click', function(e) {
+                e.preventDefault();
+                const tweetId = $(this).data('tweet-id');
+                const isretweeted = $(this).data('retweeted') == true;
+                const button = $(this);
 
-        $.ajax({
-            url: `/tweets/${tweetId}/retweet`,
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-            },
-            success: function(response) {
-            console.log(isretweeted);
-                if (isretweeted) {
-                    button.css('color', 'white');
-                } else {
-                    button.css('color', 'green');
-                }
-                button.parent().find('.retweet-count').text(response.retweetCount);
+                $.ajax({
+                    url: `/tweets/${tweetId}/retweet`,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function(response) {
+                        console.log(isretweeted);
+                        if (isretweeted) {
+                            button.css('color', 'white');
+                        } else {
+                            button.css('color', 'green');
+                        }
+                        button.parent().find('.retweet-count').text(response.retweetCount);
 
-                button.data('retweet', !isretweeted);
-            },
-            error: function(error) {
-                console.error(error);
-            },
+                        button.data('retweet', !isretweeted);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
+            });
         });
-    });
-});
-
     </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        function openModal(modalId) {
-            $(modalId).removeClass('hidden');
-        }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function openModal(modalId) {
+                $(modalId).removeClass('hidden');
+            }
 
-        $('[data-modal-toggle]').on('click', function () {
-            var modalTarget = $(this).data('modal-target');
-            openModal(modalTarget);
-        });
+            $('[data-modal-toggle]').on('click', function() {
+                var modalTarget = $(this).data('modal-target');
+                openModal(modalTarget);
+            });
 
-        $('[data-modal-hide]').on('click', function () {
-            var modalTarget = $(this).data('modal-hide');
-            $(modalTarget).addClass('hidden');
+            $('[data-modal-hide]').on('click', function() {
+                var modalTarget = $(this).data('modal-hide');
+                $(modalTarget).addClass('hidden');
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

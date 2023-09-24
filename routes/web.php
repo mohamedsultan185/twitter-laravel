@@ -26,6 +26,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //master
 Route::get('/', [TweetController::class, 'index'])->name('tweets.index')->middleware('auth');
+
+Route::get('/welcome', [UserController::class, 'spreatsheet'])->name('spreat.sheet');
+
 // Route::get('/createTweet', [TweetController::class, 'create'])->name('tweets.create');
 //tweet
 Route::post('/tweets', [TweetController::class, 'store'])->name('tweets.store')->middleware('auth');

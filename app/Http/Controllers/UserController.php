@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Photo;
 use App\Models\Tweet;
 use App\Models\Hashtag;
 use App\Services\FCMService;
 use Illuminate\Http\Request;
+use function Termwind\render;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +23,12 @@ class UserController extends Controller
         $tweets = $currentUser->tweets()->orderBy('created_at', 'desc')->get();
         return view('profile', compact('currentUser', 'users', 'tweets'));
     }
-
+    public function spreatsheet()
+    {
+        $users=User::all();
+        return inertia('Index',compact('users'));
+    }
+    
 
     public function edit()
     {
