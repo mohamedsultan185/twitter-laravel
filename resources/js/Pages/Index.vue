@@ -1,142 +1,168 @@
 <template>
     <div>
         <hot-table
-            :data="users"
             :colHeaders="columnHeaders"
             :settings="hotSettings"
-            :id="id"
             :class="className"
-            ref="hotTable"
-        ></hot-table>
+            :afterChange="onAfterChange"
+        >
+            <hot-column title="ID" read-only="true"></hot-column>
+            <hot-column title="Name"></hot-column>
+            <hot-column title="Username"></hot-column>
+            <hot-column title="Email"></hot-column>
+            <hot-column title="Email Verified At" read-only="true"></hot-column>
+            <hot-column title="password" read-only="true"></hot-column>
+            <hot-column title="Image"></hot-column>
+            <hot-column title="Phone"></hot-column>
+            <hot-column title="Birthday"></hot-column>
+            <hot-column title="Deleted At" read-only="true"></hot-column>
+            <hot-column title="Remember Token" read-only="true"></hot-column>
+            <hot-column title="Created At" read-only="true"></hot-column>
+            <hot-column title="Updated At" read-only="true"></hot-column>
 
-        <!-- New User button -->
-        <button @click="addNewUser" class="btn btn-primary">New User</button>
+
+        </hot-table>
     </div>
 </template>
 
 <script>
+import "handsontable/dist/handsontable.full.min.css";
 import { defineComponent } from "vue";
-import { HotTable } from "@handsontable/vue3";
+import { HotTable, HotColumn } from "@handsontable/vue3";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.css";
 import axios from "axios";
 
-registerAllModules();
-
 export default defineComponent({
+    components: {
+        HotTable,
+        HotColumn,
+    },
     props: {
-        users: Array,
+        users: Object,
     },
     data() {
-        const columnHeaders = [
-            "ID",
-            "Name",
-            "Username",
-            "Email",
-            "Email Verified At",
-            "Image",
-            "Phone",
-            "Birthday",
-            "Deleted At",
-            "Created At",
-            "Updated At",
-            "Remember Token",
-        ];
-
-        const hotSettings = {
-            colWidths: [
-                50, 100, 120, 150, 150, 100, 100, 120, 100, 120, 150, 120, 120,
-            ],
-            rowHeights: 30,
-            stretchH: "all",
-            className: "htCenter htMiddle",
-            licenseKey: "non-commercial-and-evaluation",
-            contextMenu: ["remove_row"],
-            afterChange: this.handleAfterChange,
-        };
-
         return {
-            columnHeaders,
-            hotSettings,
+            hotSettings: {
+                data: this.users.map((item) => [
+                    item.id,
+                    item.name,
+                    item.username,
+                    item.email,
+                    item.email_verified_at,
+                    item.password,
+                    item.image,
+                    item.phone,
+                    item.birthday,
+                    item.deleted_at,
+                    item.remember_token,
+                    item.created_at,
+                    item.updated_at,
+                ]),
+                minSpareRows: 14,
+                height: "auto",
+                width: "auto",
+                manualRowMove: true,
+                stretchH: "all",
+                fillHandle: true,
+                autofill: {
+                    autoInsertRow: true,
+                },
+                licenseKey: "non-commercial-and-evaluation",
+                colWidths: [
+                    50, 100, 120, 120, 150, 150, 100, 100, 120, 100, 120, 150,
+                    120, 120,
+                ],
+            },
+            columns: [
+                "id",
+                "name",
+                "username",
+                "email",
+                "email_verified_at",
+                "password",
+                "image",
+                "phone",
+                "birthday",
+                "deleted_at",
+                "remember_token",
+                "created_at",
+                "updated_at",
+                "fcm_token",
+            ],
             id: "my-custom-id",
             className: "my-custom-classname excel-like-table",
         };
     },
-    components: {
-        HotTable,
-    },
+
     methods: {
-        async handleAfterChange(changes) {
-            if (changes === null) {
-                console.error("No changes detected.");
-                return;
-            }
+        onAfterChange(changes) {
+            let user = {
+                0: "",
+                1: "",
+                2: "",
+                3: "",
+                4: "",
+                5: "",
+                7: "",
+                8: "",
+                9: "",
+                10: "",
+                11: "",
+                12: "",
+                13: "",
+            };
             for (const [row, prop, oldValue, newValue] of changes) {
-                console.log(this.users[row]);
-                try {
-                    const userId = this.users[row].ID; // Use "ID" property for user ID
-                    const response = await axios.put(
-                        `api/v1/users/${userId}/update`,
-                        {
-                            name: this.users[row].Name,
-                            username: this.users[row].Username,
-                            email: this.users[row].Email,
-                            email_verified_at:
-                                this.users[row]["Email Verified At"],
-                            image: this.users[row].Image,
-                            phone: this.users[row].Phone,
-                            birthday: this.users[row].Birthday,
-                        }
-                    );
-                } catch (error) {
-                    console.error("Error:", error.message);
+                if (this.hotSettings.data[row]) {
+                    this.hotSettings.data[row][prop] = newValue;
+                    user = this.hotSettings.data[row];
+                } else {
+                    user[prop] = newValue;
                 }
             }
+            let data = {};
+
+            const columns = this.columns;
+            user.map(function (item, index) {
+                data[columns[index]] = item;
+            });
+
+            if (data.name == null) {
+                data.name = "newname";
+            }
+
+            if (data.username == null) {
+                data.username = this.generateRandom();
+            }
+
+            if (data.email == null) {
+                data.email = this.generateRandom()+"@gmail.com";
+            }
+
+            if (data.password == null) {
+                data.password = "123456789";
+            }
+
+            axios.post(`api/v1/updateOrCreate`, data).then((response) => {
+                if (response.status == 200) {
+                    // alert();
+                }
+            });
+            console.log(response);
         },
 
-        async addNewUser() {
-            const newUser = {
-                Name: "name",
-                Username: "username",
-                Email: "email",
-                "Email Verified At": null,
-                Image: "image",
-                Phone: "phone",
-                Birthday: "",
-                "Deleted At": null,
-                "Created At": null,
-                "Updated At": null,
-                "Remember Token": "",
-            };
 
-            console.log(newUser);
-
-            this.users.push(newUser);
-
-            this.scrollToLastRow();
-            try {
-                const response = await axios.post(
-                    "api/v1/users/store",
-                    newUser
+        generateRandom() {
+            const length = 8;
+            const characters =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let result = "";
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(
+                    Math.floor(Math.random() * characters.length)
                 );
-
-                console.log("User inserted successfully:", response.data);
-            } catch (error) {
-                console.error("Error inserting user:", error.message);
             }
-        },
-
-        generateUniqueId() {
-            return Date.now();
-        },
-
-        scrollToLastRow() {
-            const hotInstance = this.$refs.hotTable.hotInstance;
-            const lastRowIndex = this.users.length - 1;
-
-            if (hotInstance) {
-                hotInstance.scrollViewportTo(lastRowIndex, 0);
-            }
+            return result;
         },
     },
 });
@@ -144,14 +170,14 @@ export default defineComponent({
 
 <style>
 .excel-like-table {
-    border: 1px solid #ddd;
+    border: 1px solid #bcb7b7;
     border-collapse: collapse;
     width: 100%;
 }
 
 .excel-like-table th {
-    background-color: #f2f2f2;
-    border: 1px solid #ddd;
+    background-color: #cdc8c8;
+    border: 1px solid #b2adad;
     padding: 8px;
     text-align: center;
     color: black;
@@ -159,10 +185,11 @@ export default defineComponent({
 }
 
 .excel-like-table td {
-    border: 1px solid #ddd;
+    border: 1px solid #b2adad;
     padding: 8px;
     text-align: center;
-    color: rgb(60, 134, 90);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
 }
 
 .htCenter {
