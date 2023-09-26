@@ -11,7 +11,7 @@
             <hot-column title="Username"></hot-column>
             <hot-column title="Email"></hot-column>
             <hot-column title="Email Verified At" read-only="true"></hot-column>
-            <hot-column title="password" read-only="true"></hot-column>
+            <hot-column title="Password" read-only="true"></hot-column>
             <hot-column title="Image"></hot-column>
             <hot-column title="Phone"></hot-column>
             <hot-column title="Birthday"></hot-column>
@@ -19,7 +19,10 @@
             <hot-column title="Remember Token" read-only="true"></hot-column>
             <hot-column title="Created At" read-only="true"></hot-column>
             <hot-column title="Updated At" read-only="true"></hot-column>
-            
+            <hot-column
+                title="Actions"
+                :renderer="deleteButtonRenderer"
+            ></hot-column>
         </hot-table>
     </div>
 </template>
@@ -38,6 +41,7 @@ export default defineComponent({
     props: {
         users: Object,
     },
+
     data() {
         return {
             hotSettings: {
@@ -55,6 +59,7 @@ export default defineComponent({
                     item.remember_token,
                     item.created_at,
                     item.updated_at,
+                    '<button class="btn btn-danger" @click="deleteUser(row)"><i class="fa fa-trash"></i> Delete</button>',
                 ]),
                 minSpareRows: 14,
                 height: "auto",
@@ -94,21 +99,7 @@ export default defineComponent({
 
     methods: {
         async onAfterChange(changes) {
-            let user = {
-                0: "",
-                1: "",
-                2: "",
-                3: "",
-                4: "",
-                5: "",
-                7: "",
-                8: "",
-                9: "",
-                10: "",
-                11: "",
-                12: "",
-                13: "",
-            };
+            let user = {};
             let current_row;
 
             for (const [row, prop, oldValue, newValue] of changes) {
@@ -120,6 +111,7 @@ export default defineComponent({
                     user[row][prop] = newValue;
                 }
             }
+
             let data = {};
 
             const columns = this.columns;
@@ -151,17 +143,86 @@ export default defineComponent({
             });
         },
 
-        generateRandom() {
-            const length = 8;
-            const characters =
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            let result = "";
-            for (let i = 0; i < length; i++) {
-                result += characters.charAt(
-                    Math.floor(Math.random() * characters.length)
-                );
+        async onAfterChange(changes) {
+            let user = {};
+            let current_row;
+
+            for (const [row, prop, oldValue, newValue] of changes) {
+                current_row = row;
+                if (this.hotSettings.data[row]) {
+                    this.hotSettings.data[row][prop] = newValue;
+                    user = this.hotSettings.data[row];
+                } else {
+                    user[row][prop] = newValue;
+                }
             }
-            return result;
+
+            let data = {};
+
+            const columns = this.columns;
+            user.map(function (item, index) {
+                data[columns[index]] = item;
+            });
+
+            if (data.name == null) {
+                data.name = "newname";
+            }
+
+            if (data.username == null) {
+                data.username = this.generateRandom();
+            }
+
+            if (data.email == null) {
+                data.email = this.generateRandom() + "@gmail.com";
+            }
+
+            if (data.password == null) {
+                data.password = "123456789";
+            }
+
+            axios.post(`api/v1/updateOrCreate`, data).then((response) => {
+                if (response.status === 200) {
+                    this.hotSettings.data[current_row][0] =
+                        response.data.user.id;
+                }
+            });
+        },
+        deleteUser(row) {
+            const userId = this.hotSettings.data[row][0];
+
+            if (userId) {
+                axios
+                    .delete(`/api/v1/users/${userId}`)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            this.hotSettings.data.splice(row, 1);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting user:", error);
+                    });
+            }
+        },
+
+        deleteButtonRenderer(
+            instance,
+            td,
+            row,
+            col,
+            prop,
+            value,
+            cellProperties
+        ) {
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "btn btn-danger";
+            deleteButton.innerHTML = '<i class="fa fa-trash"></i> ';
+
+            deleteButton.addEventListener("click", () => {
+                this.deleteUser(row);
+            });
+
+            td.innerHTML = "";
+            td.appendChild(deleteButton);
         },
     },
 });

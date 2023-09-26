@@ -22,6 +22,5 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\api\v1'],  
     // Route::put('users/{user}/update', [UserController::class, 'update']);
     // Route::post('users/store', [UserController::class, 'store']);
     Route::post('/updateOrCreate', [UserController::class, 'updateOrCreate']);
-    Route::post('/deleteROw', [UserController::class, 'deleteRow']);
-
+    Route::delete('users/{id}', [UserController::class, 'deleteUser']);
 });
