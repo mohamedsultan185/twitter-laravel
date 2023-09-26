@@ -19,8 +19,7 @@
             <hot-column title="Remember Token" read-only="true"></hot-column>
             <hot-column title="Created At" read-only="true"></hot-column>
             <hot-column title="Updated At" read-only="true"></hot-column>
-
-
+            
         </hot-table>
     </div>
 </template>
@@ -29,8 +28,6 @@
 import "handsontable/dist/handsontable.full.min.css";
 import { defineComponent } from "vue";
 import { HotTable, HotColumn } from "@handsontable/vue3";
-import { registerAllModules } from "handsontable/registry";
-import "handsontable/dist/handsontable.full.css";
 import axios from "axios";
 
 export default defineComponent({
@@ -96,7 +93,7 @@ export default defineComponent({
     },
 
     methods: {
-        onAfterChange(changes) {
+        async onAfterChange(changes) {
             let user = {
                 0: "",
                 1: "",
@@ -112,12 +109,15 @@ export default defineComponent({
                 12: "",
                 13: "",
             };
+            let current_row;
+
             for (const [row, prop, oldValue, newValue] of changes) {
+                current_row = row;
                 if (this.hotSettings.data[row]) {
                     this.hotSettings.data[row][prop] = newValue;
                     user = this.hotSettings.data[row];
                 } else {
-                    user[prop] = newValue;
+                    user[row][prop] = newValue;
                 }
             }
             let data = {};
@@ -136,7 +136,7 @@ export default defineComponent({
             }
 
             if (data.email == null) {
-                data.email = this.generateRandom()+"@gmail.com";
+                data.email = this.generateRandom() + "@gmail.com";
             }
 
             if (data.password == null) {
@@ -144,13 +144,12 @@ export default defineComponent({
             }
 
             axios.post(`api/v1/updateOrCreate`, data).then((response) => {
-                if (response.status == 200) {
-                    // alert();
+                if (response.status === 200) {
+                    this.hotSettings.data[current_row][0] =
+                        response.data.user.id;
                 }
             });
-            console.log(response);
         },
-
 
         generateRandom() {
             const length = 8;

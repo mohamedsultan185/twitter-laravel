@@ -44,7 +44,14 @@ class UserController extends Controller
     public function updateOrCreate(Request $request)
     {
 
-        User::updateOrCreate(['id' => $request->id], $request->all());
-        return response()->json(['message' => 'Data saved successfully']);
+        $user = User::updateOrCreate(['id' => $request->id], $request->all());
+        return response()->json(['message' => 'Data saved successfully', 'user' =>  $user]);
+    }
+     public function deleteROw(Request $request , $id) {
+      $user = User::find($id);
+        $user->delete();
+        return response()->json(['massage' => 'Data Deleted successfully']);
+
+
     }
 }

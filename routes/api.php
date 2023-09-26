@@ -19,9 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\api\v1'],  function () {
-    Route::put('users/{user}/update', [UserController::class, 'update']);
-    Route::post('users/store', [UserController::class, 'store']);
+    // Route::put('users/{user}/update', [UserController::class, 'update']);
+    // Route::post('users/store', [UserController::class, 'store']);
     Route::post('/updateOrCreate', [UserController::class, 'updateOrCreate']);
-
+    Route::post('/deleteROw', [UserController::class, 'deleteRow']);
 
 });
